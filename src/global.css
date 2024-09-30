@@ -20,10 +20,6 @@ html {
   display: grid;
   place-content: center;
 
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
   line-height: 1;
   -webkit-text-size-adjust: 100%;
   -moz-tab-size: 4;
@@ -54,12 +50,13 @@ html {
     "Noto Color Emoji";
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 li::marker {
   content: "";
 }
 
-body {
-  padding: 0;
-  margin: 0;
-  line-height: inherit;
-}
