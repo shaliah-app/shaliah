@@ -3,29 +3,63 @@
 /* ********************* */
 
 :root {
-	--primary-color: #FAE2C8;
-	--secondary-color: #C8EDFA;
-	--accent-color-1: #F4C8FA;
-	--accent-color-2: #E1FAC8;
-	--red-color: #F03E53;
-	--bkg-color: #635342;
-	--bkg-shade-1: color-mix(in srgb, var(--bkg-color) 100%, black 10%);
-	--bkg-shade-2: color-mix(in srgb, var(--bkg-color) 100%, black 20%);
+  --primary-color: #fae2c8;
+  --secondary-color: #c8edfa;
+  --accent-color-1: #f4c8fa;
+  --accent-color-2: #e1fac8;
+  --red-color: #f03e53;
+  --bkg-color: #635342;
+  --bkg-shade-1: color-mix(in srgb, var(--bkg-color) 100%, black 10%);
+  --bkg-shade-2: color-mix(in srgb, var(--bkg-color) 100%, black 20%);
 }
 
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+html {
+  width: 100%;
+  height: 100%;
 
-	font-family: "Rubik", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
-	font-style: normal;
+  display: grid;
+  place-content: center;
 
-	background-color: var(--primary-color);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  line-height: 1;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  background-color: var(--primary-color);
+
+  color: white;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-family:
+    "Rubik",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
 }
 
 li::marker {
-	content: "";
+  content: "";
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  line-height: inherit;
 }
