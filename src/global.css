@@ -1,0 +1,31 @@
+/* ********************* */
+/* ****** Globals ****** */
+/* ********************* */
+
+:root {
+	--primary-color: #FAE2C8;
+	--secondary-color: #C8EDFA;
+	--accent-color-1: #F4C8FA;
+	--accent-color-2: #E1FAC8;
+	--red-color: #F03E53;
+	--bkg-color: #635342;
+	--bkg-shade-1: color-mix(in srgb, var(--bkg-color) 100%, black 10%);
+	--bkg-shade-2: color-mix(in srgb, var(--bkg-color) 100%, black 20%);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	font-family: "Rubik", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+
+	background-color: var(--primary-color);
+}
+
+li::marker {
+	content: "";
+}
