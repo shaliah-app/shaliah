@@ -1,7 +1,8 @@
 import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
+import { css } from "~/utils/css";
 
 export default component$(() => {
-  useStylesScoped$(`
+  useStylesScoped$(css`
     .material-symbols-outlined {
       pointer-events: none;
       font-variation-settings:
