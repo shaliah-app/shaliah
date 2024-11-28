@@ -1,7 +1,7 @@
 import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 
-export default component$(() => {
+export const Icon = component$(() => {
   useStylesScoped$(css`
     .material-symbols-outlined {
       pointer-events: none;
