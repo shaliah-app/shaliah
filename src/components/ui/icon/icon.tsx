@@ -1,7 +1,7 @@
-import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, type PropsOf, Slot, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 
-export const Icon = component$(() => {
+export const Icon = component$<PropsOf<'i'>>(() => {
   useStylesScoped$(css`
     .material-symbols-outlined {
       pointer-events: none;
