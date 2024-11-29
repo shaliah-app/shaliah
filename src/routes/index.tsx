@@ -1,10 +1,21 @@
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import styles from "./styles.css?inline";
+import { css } from "~/utils/css";
 
 export default component$(() => {
-  useStylesScoped$(styles);
-  return <main>hello, world!</main>;
+  useStylesScoped$(css`
+    main {
+      width: 100svw;
+      height: 100svh;
+      padding: 1rem;
+      display: grid;
+
+      overflow: hidden;
+      z-index: 1;
+      position: relative;
+    }
+  `);
+  return <main></main>;
 });
 
 export const head: DocumentHead = {
