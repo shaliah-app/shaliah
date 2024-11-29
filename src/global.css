@@ -53,6 +53,7 @@ html {
   place-content: center;
 
   background-color: var(--primary-color);
+  color: white;
 }
 
 li::marker {
