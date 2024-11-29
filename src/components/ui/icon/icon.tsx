@@ -3,8 +3,10 @@ import { css } from "~/utils/css";
 
 export const Icon = component$<PropsOf<'i'>>(() => {
   useStylesScoped$(css`
-    .material-symbols-outlined {
+    i {
       pointer-events: none;
+      user-select: none;
+
       font-variation-settings:
       "FILL" 0,
       "wght" 400,
