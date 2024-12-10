@@ -10,13 +10,17 @@ import { css } from "~/utils/css";
 type ButtonProps = PropsOf<"button"> & {
   icon?: string;
   rounded?: boolean;
+  wrapper?: boolean;
+  size?: "lg" | "xl";
 };
 
 export const Button = component$<ButtonProps>((props) => {
   useStylesScoped$(css`
     button {
+      --button-min-height: calc(2.5rem + var(--size, 0rem));
+
       width: fit-content;
-      min-height: 2.5rem;
+      min-height: var(--button-min-height);
       height: fit-content;
       border: none;
       border-radius: 0.5rem;
@@ -33,30 +37,52 @@ export const Button = component$<ButtonProps>((props) => {
       font-weight: 700;
       color: var(--primary-color);
 
-      --shade: 0%;
+      --shade-color: white;
+      --shade-percentage: 0%;
       background-color: color-mix(
         in srgb,
         var(--bkg-color),
-        white var(--shade)
+        var(--shade-color) var(--shade-percentage)
       );
       transition: background-color 150ms ease-in-out;
 
       &:hover {
-        --shade: 10%;
+        --shade-percentage: 10%;
       }
 
       &:active {
-        --shade: 20%;
+        --shade-percentage: 20%;
       }
 
       &:disabled {
-        --shade: 50%;
+        --shade-percentage: 50%;
         cursor: default;
         pointer-events: none;
       }
 
+      /****************/
+      /*** Variants ***/
+      /****************/
+
       &[rounded] {
+        justify-content: center;
+        aspect-ratio: 1;
         border-radius: 100%;
+      }
+
+      &[wrapper] {
+        padding: 0;
+        border-radius: 0;
+        --shade-color: black;
+        --bkg-color: transparent;
+      }
+
+      &[size="lg"] {
+        --size: 1rem;
+      }
+
+      &[size="xl"] {
+        --size: 2rem;
       }
     }
   `);
