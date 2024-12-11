@@ -19,6 +19,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none;
 
   text-size-adjust: 100%;
   line-height: 1;
@@ -60,3 +61,10 @@ li::marker {
   content: "";
 }
 
+/* Utilities */
+
+.center-absolute {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
