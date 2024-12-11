@@ -4,7 +4,7 @@ import {
   useStylesScoped$,
   type PropsOf,
 } from "@builder.io/qwik";
-import { Icon } from "../icon/icon";
+import { Icon } from "./icon";
 import { css } from "~/utils/css";
 
 interface Variants {

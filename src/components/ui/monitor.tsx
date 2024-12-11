@@ -1,7 +1,7 @@
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 
-import { BooleanButton, Button } from "../button/button";
+import { BooleanButton, Button } from "./button";
 
 export const Monitor = component$(() => {
   useStylesScoped$(css`
