@@ -1,6 +1,5 @@
 import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
-import Image from "@/slide-placeholder.jpg?jsx";
 
 export const SlideItem = component$(() => {
   useStylesScoped$(css`
@@ -28,7 +27,7 @@ export const SlideItem = component$(() => {
         }
       }
 
-      & .wrapper {
+      & .preview-wrapper {
         width: 25%;
 
         display: grid;
@@ -77,9 +76,9 @@ export const SlideItem = component$(() => {
 
       &.swiper-slide-active {
         --selected-percentage: 100%;
-        color: color-mix(in srgb, var(--bkg-color) 100%,rgb(0, 0, 0) 50%);
+        color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
       }
-      
+
       /* ****************************** */
       /* End - Colors transition styles */
       /* ****************************** */
@@ -87,12 +86,12 @@ export const SlideItem = component$(() => {
   `);
   return (
     <swiper-slide>
-        <span>
-          <Slot />
-        </span>
-        <div class="wrapper">
-          <Image />
-        </div>
+      <span>
+        <Slot />
+      </span>
+      <div class="preview-wrapper">
+        <Slot name="preview" />
+      </div>
     </swiper-slide>
   );
 });
