@@ -1,6 +1,6 @@
 import { type PropsOf, component$, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
-import Image from "@/slide-placeholder.jpg?jsx";
+import { Image } from "@unpic/qwik";
 
 export const PresentationScreen = component$<
   PropsOf<"figure"> & {
@@ -39,7 +39,7 @@ export const PresentationScreen = component$<
 
   return (
     <figure {...props}>
-      <Image />
+      <Image src="../slide-placeholder-1.jpg"/>
     </figure>
   );
 });
