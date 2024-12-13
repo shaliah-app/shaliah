@@ -44,6 +44,12 @@ export default component$(() => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
+
+        {/*------- Libraries -------*/}
+        <script
+          async
+          src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"
+        ></script>
       </head>
       <body lang="pt-br">
         <RouterOutlet />
