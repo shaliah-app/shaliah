@@ -6,6 +6,7 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
+import { AppContextProvider } from "./contexts/app-context";
 
 import "./global.css";
 
@@ -28,7 +29,6 @@ export default component$(() => {
           />
         )}
         <RouterHead />
-
         {/*------- Fonts -------*/}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -44,7 +44,6 @@ export default component$(() => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
-
         {/*------- Libraries -------*/}
         <script
           async
@@ -52,8 +51,10 @@ export default component$(() => {
         ></script>
       </head>
       <body lang="pt-br">
-        <RouterOutlet />
-        {!isDev && <ServiceWorkerRegister />}
+        <AppContextProvider>
+          <RouterOutlet />
+          {!isDev && <ServiceWorkerRegister />}
+        </AppContextProvider>
       </body>
     </QwikCityProvider>
   );
