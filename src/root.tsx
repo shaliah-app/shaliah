@@ -45,6 +45,10 @@ export default component$(() => {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         />
         {/*------- Libraries -------*/}
+        {/* 
+            TODO: Should be changed to Swiper's NPM module to reduce bundle size
+            @see https://swiperjs.com/element#core-version--modules 
+        */}
         <script
           async
           src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"
