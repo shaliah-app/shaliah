@@ -11,7 +11,7 @@ import {
 import { isBrowser } from "@builder.io/qwik/build";
 import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
-import { SlideItem } from "../slide-item";
+import { SlideItem } from "./slide-item";
 import { css } from "~/utils/css";
 
 export const SlidesCarousel = component$(() => {
