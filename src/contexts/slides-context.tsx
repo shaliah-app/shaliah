@@ -9,7 +9,7 @@ import {
   useTask$,
 } from "@builder.io/qwik";
 
-import array from "@/slides.json";
+import array from "~/utils/slides.json";
 import { isBrowser } from "@builder.io/qwik/build";
 
 interface Slide {
