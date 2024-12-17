@@ -39,7 +39,7 @@ export const SlidesCarousel = component$(() => {
   useTask$(({ track }) => {
     const newActiveSlide = track(() => slides.active);
     if (isBrowser) {
-      localStorage.setItem("activeSlide", JSON.stringify(newActiveSlide));
+      localStorage.setItem("active", JSON.stringify(newActiveSlide));
     }
   });
 

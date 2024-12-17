@@ -39,7 +39,10 @@ export const SlidesContextProvider = component$(() => {
   useOnWindow(
     "storage",
     $((e: StorageEvent) => {
-      if (e.newValue) store.active = JSON.parse(e.newValue);
+      if (e.key && e.key in store) {
+        const key = e.key as keyof SlidesStore;
+        store[key] = JSON.parse(String(e.newValue));
+      }
     })
   );
 
