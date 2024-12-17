@@ -1,16 +1,13 @@
 import {
-  $,
   component$,
   createContextId,
   Slot,
   useContextProvider,
-  useOnWindow,
   useStore,
-  useTask$,
 } from "@builder.io/qwik";
 
 import array from "~/utils/slides.json";
-import { isBrowser } from "@builder.io/qwik/build";
+import { useStorage } from "~/hooks/storage-hook";
 
 interface Slide {
   id: number;
@@ -25,6 +22,7 @@ interface SlidesStore {
 }
 
 export const SlidesContextId = createContextId<SlidesStore>("slides");
+const { id } = SlidesContextId
 
 export const SlidesContextProvider = component$(() => {
   const store = useStore<SlidesStore>(() => ({
@@ -38,23 +36,10 @@ export const SlidesContextProvider = component$(() => {
     array,
   }));
 
-  // Update localStorage
-  useTask$(({ track }) => {
-    const newActiveSlide = track(() => store.active);
-    if (isBrowser)
-      localStorage.setItem("active", JSON.stringify(newActiveSlide));
-  });
-
-  // Synchronize store
-  useOnWindow(
-    "storage",
-    $((e: StorageEvent) => {
-      if (e.key && e.key in store) {
-        const key = e.key as keyof SlidesStore;
-        store[key] = JSON.parse(String(e.newValue));
-      }
-    })
-  );
+  // TODO: Should be merged into one hook, 
+  //       like useLocalStorage$().
+  useStorage.Track$(id, store);
+  useStorage.Sync$(id, store);
 
   useContextProvider(SlidesContextId, store);
   return <Slot />;
