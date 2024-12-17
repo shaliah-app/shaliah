@@ -4,7 +4,6 @@ import {
   component$,
   useContext,
   useOnDocument,
-  useSignal,
   useStylesScoped$,
   useTask$,
 } from "@builder.io/qwik";
@@ -26,12 +25,11 @@ export const SlidesCarousel = component$(() => {
 
   const slides = useContext(SlidesContextId);
 
-  const swiper = useSignal<HTMLElement & { swiper: Swiper }>();
-
   useOnDocument(
     "swiperslidechange",
-    $(() => {
-      const index = swiper.value!.swiper.activeIndex;
+    $((e) => {
+      const { swiper } = e.target as EventTarget & { swiper: Swiper };
+      const index = swiper.activeIndex;
       slides.active = slides.array[index];
     })
   );
@@ -45,7 +43,6 @@ export const SlidesCarousel = component$(() => {
 
   return (
     <swiper-container
-      ref={swiper}
       slides-per-view="3"
       direction="vertical"
       mousewheel="true"
