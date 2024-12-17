@@ -6,7 +6,7 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
-import { AppContextProvider } from "./contexts/app-context";
+import { SlidesContextProvider } from "./contexts/slides-context";
 
 import "./global.css";
 
@@ -55,10 +55,10 @@ export default component$(() => {
         ></script>
       </head>
       <body lang="pt-br">
-        <AppContextProvider>
+        <SlidesContextProvider>
           <RouterOutlet />
           {!isDev && <ServiceWorkerRegister />}
-        </AppContextProvider>
+        </SlidesContextProvider>
       </body>
     </QwikCityProvider>
   );

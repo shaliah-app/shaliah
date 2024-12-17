@@ -9,7 +9,7 @@ import {
   useTask$,
 } from "@builder.io/qwik";
 import { isBrowser } from "@builder.io/qwik/build";
-import { AppContextId } from "~/contexts/app-context";
+import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { SlideItem } from "../slide-item";
 import { css } from "~/utils/css";
@@ -24,7 +24,7 @@ export const SlidesCarousel = component$(() => {
     }
   `);
 
-  const app = useContext(AppContextId);
+  const slides = useContext(SlidesContextId);
 
   const swiper = useSignal<HTMLElement & { swiper: Swiper }>();
 
@@ -32,12 +32,12 @@ export const SlidesCarousel = component$(() => {
     "swiperslidechange",
     $(() => {
       const index = swiper.value!.swiper.activeIndex;
-      app.slides.active = app.slides.array[index];
+      slides.active = slides.array[index];
     })
   );
 
   useTask$(({ track }) => {
-    const newActiveSlide = track(() => app.slides.active);
+    const newActiveSlide = track(() => slides.active);
     if (isBrowser) {
       localStorage.setItem("activeSlide", JSON.stringify(newActiveSlide));
     }
@@ -52,7 +52,7 @@ export const SlidesCarousel = component$(() => {
       centered-slides="true"
       grab-cursor="true"
     >
-      {app.slides.array.map((s) => (
+      {slides.array.map((s) => (
         <SlideItem key={s.id}>
           {s.file_name}
           <Image src={s.preview} q:slot="preview" />
