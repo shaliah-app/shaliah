@@ -6,9 +6,11 @@ import {
   useContextProvider,
   useOnWindow,
   useStore,
+  useTask$,
 } from "@builder.io/qwik";
 
 import array from "@/slides.json";
+import { isBrowser } from "@builder.io/qwik/build";
 
 interface Slide {
   id: number;
@@ -36,6 +38,14 @@ export const SlidesContextProvider = component$(() => {
     array,
   }));
 
+  // Update localStorage
+  useTask$(({ track }) => {
+    const newActiveSlide = track(() => store.active);
+    if (isBrowser)
+      localStorage.setItem("active", JSON.stringify(newActiveSlide));
+  });
+
+  // Synchronize store
   useOnWindow(
     "storage",
     $((e: StorageEvent) => {

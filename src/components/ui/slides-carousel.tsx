@@ -5,9 +5,7 @@ import {
   useContext,
   useOnDocument,
   useStylesScoped$,
-  useTask$,
 } from "@builder.io/qwik";
-import { isBrowser } from "@builder.io/qwik/build";
 import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { SlideItem } from "./slide-item";
@@ -33,13 +31,6 @@ export const SlidesCarousel = component$(() => {
       slides.active = slides.array[index];
     })
   );
-
-  useTask$(({ track }) => {
-    const newActiveSlide = track(() => slides.active);
-    if (isBrowser) {
-      localStorage.setItem("active", JSON.stringify(newActiveSlide));
-    }
-  });
 
   return (
     <swiper-container
