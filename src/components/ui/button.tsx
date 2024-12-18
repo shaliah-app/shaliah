@@ -18,6 +18,7 @@ const styles = css`
   button,
   label {
     --min-size: calc(2.5rem + var(--size, 0rem));
+    --background-color: var(--bkg-color);
 
     min-width: var(--min-size);
     min-height: var(--min-size);
@@ -43,7 +44,7 @@ const styles = css`
     --shade-percentage: 0%;
     background-color: color-mix(
       in srgb,
-      var(--bkg-color),
+      var(--background-color),
       var(--shade-color) var(--shade-percentage)
     );
     transition: background-color 150ms ease-in-out;
@@ -65,6 +66,11 @@ const styles = css`
     /****************/
     /*** Variants ***/
     /****************/
+
+    &.red {
+      --background-color: var(--red-color);
+      color: var(--black-color);
+    }
 
     &[rounded] {
       justify-content: center;
