@@ -14,7 +14,7 @@ export const Monitor = component$(() => {
       place-content: center;
       align-items: center;
 
-      [wrapper] {
+      .wrapper {
         width: auto;
 
         margin-inline: 1.5rem;
@@ -40,13 +40,13 @@ export const Monitor = component$(() => {
 
   return (
     <div role="toolbar">
-      <Button rounded icon="arrow_back" size="lg" />
+      <Button class="rounded size-lg" icon="arrow_back" />
 
-      <BooleanButton wrapper>
+      <BooleanButton class="wrapper">
         <iframe src="/present" loading="lazy"></iframe>
       </BooleanButton>
 
-      <Button rounded icon="arrow_forward" size="lg" />
+      <Button class="rounded size-lg" icon="arrow_forward" />
     </div>
   );
 });

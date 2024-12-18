@@ -9,9 +9,6 @@ import { css } from "~/utils/css";
 
 interface Variants {
   icon?: string;
-  rounded?: boolean;
-  wrapper?: boolean;
-  size?: "lg" | "xl";
 }
 
 const styles = css`
@@ -72,13 +69,13 @@ const styles = css`
       color: var(--black-color);
     }
 
-    &[rounded] {
+    &.rounded {
       justify-content: center;
       aspect-ratio: 1;
       border-radius: 100%;
     }
 
-    &[wrapper] {
+    &.wrapper {
       padding: 0;
       border-radius: 0;
       --shade-color: black;
@@ -90,11 +87,11 @@ const styles = css`
       }
     }
 
-    &[size="lg"] {
+    &.size-lg {
       --size: 1rem;
     }
 
-    &[size="xl"] {
+    &.size-xl {
       --size: 2rem;
     }
   }
