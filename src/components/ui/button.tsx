@@ -17,16 +17,18 @@ interface Variants {
 const styles = css`
   button,
   label {
-    --button-min-height: calc(2.5rem + var(--size, 0rem));
+    --min-size: calc(2.5rem + var(--size, 0rem));
 
+    min-width: var(--min-size);
+    min-height: var(--min-size);
     width: fit-content;
-    min-height: var(--button-min-height);
     height: fit-content;
     border: none;
     border-radius: 0.5rem;
     padding: 0.5rem;
 
     display: inline-flex;
+    justify-content: center;
     align-items: center;
     gap: 0.5rem;
     flex-shrink: 0;
