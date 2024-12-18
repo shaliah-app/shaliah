@@ -1,10 +1,32 @@
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { component$, useStylesScoped$ } from "@builder.io/qwik";
-import styles from "./styles.css?inline";
+import { component$, useStyles$ } from "@builder.io/qwik";
+import { css } from "~/utils/css";
+import { Monitor } from "~/components/ui/monitor";
+import { SlidesCarousel } from "~/components/ui/slides-carousel";
 
 export default component$(() => {
-  useStylesScoped$(styles);
-  return <main>hello, world!</main>;
+  useStyles$(css`
+    main {
+      width: 100svw;
+      height: 100svh;
+      padding: 1rem;
+
+      display: grid;
+      grid-template-columns: 100%;
+
+      overflow: hidden;
+      z-index: 1;
+      position: relative;
+    }
+  `);
+
+  return (
+    <main>
+      <Monitor />
+
+      <SlidesCarousel />
+    </main>
+  );
 });
 
 export const head: DocumentHead = {

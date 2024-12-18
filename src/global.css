@@ -9,6 +9,7 @@
   --accent-color-2: #e1fac8;
   --red-color: #f03e53;
   --bkg-color: #635342;
+  --black-color: #1c1b1f;
   --bkg-shade-1: color-mix(in srgb, var(--bkg-color) 100%, black 10%);
   --bkg-shade-2: color-mix(in srgb, var(--bkg-color) 100%, black 20%);
 
@@ -19,6 +20,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border: none;
 
   text-size-adjust: 100%;
   line-height: 1;
@@ -53,9 +55,17 @@ html {
   place-content: center;
 
   background-color: var(--primary-color);
+  color: white;
 }
 
 li::marker {
   content: "";
 }
 
+/* Utilities */
+
+.center-absolute {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

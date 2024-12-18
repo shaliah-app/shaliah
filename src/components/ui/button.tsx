@@ -1,0 +1,128 @@
+import {
+  component$,
+  Slot,
+  useStylesScoped$,
+  type PropsOf,
+} from "@builder.io/qwik";
+import { Icon } from "./icon";
+import { css } from "~/utils/css";
+
+interface Variants {
+  icon?: string;
+}
+
+const styles = css`
+  button,
+  label {
+    --min-size: calc(2.5rem + var(--size, 0rem));
+    --background-color: var(--bkg-color);
+
+    min-width: var(--min-size);
+    min-height: var(--min-size);
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+
+    overflow: hidden;
+    cursor: pointer;
+
+    font-weight: 700;
+    color: var(--primary-color);
+
+    --shade-color: white;
+    --shade-percentage: 0%;
+    background-color: color-mix(
+      in srgb,
+      var(--background-color),
+      var(--shade-color) var(--shade-percentage)
+    );
+    transition: background-color 150ms ease-in-out;
+
+    &:hover {
+      --shade-percentage: 10%;
+    }
+
+    &:active {
+      --shade-percentage: 20%;
+    }
+
+    &:disabled {
+      --shade-percentage: 50%;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /****************/
+    /*** Variants ***/
+    /****************/
+
+    &.red {
+      --background-color: var(--red-color);
+      color: var(--black-color);
+    }
+
+    &.rounded {
+      justify-content: center;
+      aspect-ratio: 1;
+      border-radius: 100%;
+    }
+
+    &.wrapper {
+      padding: 0;
+      border-radius: 0;
+      --shade-color: black;
+      --bkg-color: transparent;
+
+      > * {
+        pointer-events: none;
+        z-index: -1;
+      }
+    }
+
+    &.size-lg {
+      --size: 1rem;
+    }
+
+    &.size-xl {
+      --size: 2rem;
+    }
+  }
+`;
+
+export const Button = component$<PropsOf<"button"> & Variants>((props) => {
+  useStylesScoped$(styles);
+
+  return (
+    <button {...props}>
+      <Slot />
+      {props.icon && <Icon>{props.icon}</Icon>}
+    </button>
+  );
+});
+
+export const BooleanButton = component$<PropsOf<"label"> & Variants>(
+  (props) => {
+    useStylesScoped$(styles);
+    useStylesScoped$(css`
+      input {
+        display: none;
+      }
+    `);
+
+    return (
+      <label {...props}>
+        <Slot />
+        {props.icon && <Icon>{props.icon}</Icon>}
+        <input type="checkbox" />
+      </label>
+    );
+  }
+);
