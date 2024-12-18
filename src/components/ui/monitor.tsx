@@ -16,10 +16,10 @@ export const Monitor = component$(() => {
 
       .wrapper {
         width: auto;
-
         margin-inline: 1.5rem;
-        aspect-ratio: 16 / 10; // todo: should be according monitor screen size, and not fixed like this
-        box-shadow: 0 10px 30px #00000025;
+        box-shadow: 0px 10px 30px #00000025;
+        /* TODO: should be according monitor screen size, and not fixed like this */
+        aspect-ratio: 16 / 10; 
 
         > iframe {
           width: 100%;
