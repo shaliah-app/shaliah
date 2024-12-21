@@ -153,20 +153,31 @@ export const Item = component$<{ slide: Slide }>((props) => {
       /* background-color: var(--primary-color); */
     }
   `);
+
+  const slides = useContext(SlidesContextId);
+
   return (
     <swiper-slide class="slide-root">
       <swiper-container slides-per-view="auto" touch-release-on-edges="true">
         <swiper-slide class="slide-content">
-          <span>
-            {props.slide.file_name}
-          </span>
+          <span>{props.slide.file_name}</span>
           <div class="preview-wrapper" role="none">
             <Image src={props.slide.preview} />
           </div>
         </swiper-slide>
         <swiper-slide>
           <aside role="toolbar" aria-label="Slide controls">
-            <Button class="red size-lg" tabIndex={-1} icon="delete" />
+            <Button
+              onClick$={() =>
+                (slides.array = slides.array.filter(
+                  (s) => s.id != props.slide.id
+                ))
+              }
+              class="red size-lg"
+              tabIndex={-1}
+              icon="delete"
+              aria-label="Delete slide"
+            />
           </aside>
         </swiper-slide>
       </swiper-container>
