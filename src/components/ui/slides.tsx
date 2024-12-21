@@ -1,8 +1,59 @@
-import { component$, Slot, useStylesScoped$ } from "@builder.io/qwik";
+import type { Swiper } from "swiper/types";
+import {
+  $,
+  component$,
+  useContext,
+  useId,
+  useOnDocument,
+  useStylesScoped$,
+} from "@builder.io/qwik";
+import type { Slide } from "~/contexts/slides-context";
+import { SlidesContextId } from "~/contexts/slides-context";
+import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
+import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
 import { Button } from "./button";
 
-export const SlideItem = component$(() => {
+export const Carousel = component$(() => {
+  useStylesScoped$(css`
+    swiper-container {
+      height: 50%;
+      border-radius: 2rem;
+      background-color: var(--bkg-color);
+      overflow: hidden;
+    }
+  `);
+
+  const slides = useContext(SlidesContextId);
+
+  const id = lettersAndNumbers(useId());
+
+  useOnDocument(
+    `${id}slidechange`,
+    $((e) => {
+      const { swiper } = e.target as EventTarget & { swiper: Swiper };
+      const index = swiper.activeIndex;
+      slides.active = slides.array[index];
+    })
+  );
+
+  return (
+    <swiper-container
+      events-prefix={id}
+      slides-per-view="3"
+      direction="vertical"
+      mousewheel="true"
+      centered-slides="true"
+      grab-cursor="true"
+    >
+      {slides.array.map((s) => (
+        <Item key={s.id} slide={s}></Item>
+      ))}
+    </swiper-container>
+  );
+});
+
+export const Item = component$<{ slide: Slide }>((props) => {
   useStylesScoped$(css`
     .slide-root {
       min-height: 5rem;
@@ -107,10 +158,10 @@ export const SlideItem = component$(() => {
       <swiper-container slides-per-view="auto" touch-release-on-edges="true">
         <swiper-slide class="slide-content">
           <span>
-            <Slot />
+            {props.slide.file_name}
           </span>
           <div class="preview-wrapper" role="none">
-            <Slot name="preview" />
+            <Image src={props.slide.preview} />
           </div>
         </swiper-slide>
         <swiper-slide>
@@ -122,3 +173,5 @@ export const SlideItem = component$(() => {
     </swiper-slide>
   );
 });
+
+export const Slides = { Carousel, Item };

@@ -9,7 +9,7 @@ import {
 import array from "~/utils/slides.json";
 import { useStorage } from "~/hooks/storage-hook";
 
-interface Slide {
+export interface Slide {
   id: number;
   file_name: string;
   preview: string;

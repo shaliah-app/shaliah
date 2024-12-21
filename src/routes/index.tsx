@@ -2,7 +2,7 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { component$, useStyles$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
-import { SlidesCarousel } from "~/components/ui/slides-carousel";
+import { Slides } from "~/components/ui/slides";
 
 export default component$(() => {
   useStyles$(css`
@@ -24,7 +24,7 @@ export default component$(() => {
     <main>
       <Monitor />
 
-      <SlidesCarousel />
+      <Slides.Carousel />
     </main>
   );
 });
