@@ -17,6 +17,7 @@
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.types": "tsc --incremental --noEmit",
     "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
+    "peer": "peerjs --port 9000",
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
@@ -25,6 +26,9 @@
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
     "qwik": "qwik"
+  },
+  "dependencies": {
+    "peerjs": "^1.5.4"
   },
   "devDependencies": {
     "@builder.io/qwik": "^1.9.0",
@@ -37,6 +41,7 @@
     "@unpic/qwik": "^0.0.46",
     "eslint": "8.57.0",
     "eslint-plugin-qwik": "^1.9.0",
+    "peer": "^1.0.2",
     "prettier": "3.3.3",
     "swiper": "^11.1.15",
     "typescript": "5.4.5",
