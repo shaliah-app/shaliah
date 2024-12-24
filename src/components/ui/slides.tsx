@@ -1,7 +1,9 @@
-import type { Swiper } from "swiper/types";
+import type { Swiper, SwiperOptions } from "swiper/types";
+import type { PropsOf } from "@builder.io/qwik";
 import {
   $,
   component$,
+  Slot,
   useContext,
   useId,
   useOnDocument,
@@ -14,13 +16,10 @@ import { css } from "~/utils/css";
 import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
 import { Button } from "./button";
 
-export const Carousel = component$(() => {
+export const Carousel = component$<PropsOf<"div"> & SwiperOptions>((props) => {
   useStylesScoped$(css`
     swiper-container {
       height: 50%;
-      border-radius: 2rem;
-      background-color: var(--bkg-color);
-      overflow: hidden;
     }
   `);
 
@@ -38,17 +37,8 @@ export const Carousel = component$(() => {
   );
 
   return (
-    <swiper-container
-      events-prefix={id}
-      slides-per-view="3"
-      direction="vertical"
-      mousewheel="true"
-      centered-slides="true"
-      grab-cursor="true"
-    >
-      {slides.array.map((s) => (
-        <Item key={s.id} slide={s}></Item>
-      ))}
+    <swiper-container events-prefix={id} {...props}>
+      <Slot />
     </swiper-container>
   );
 });

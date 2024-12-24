@@ -1,8 +1,9 @@
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { component$, useStyles$ } from "@builder.io/qwik";
+import { component$, useContext, useStyles$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
 import { Slides } from "~/components/ui/slides";
+import { SlidesContextId } from "~/contexts/slides-context";
 
 export default component$(() => {
   useStyles$(css`
@@ -17,14 +18,32 @@ export default component$(() => {
       overflow: hidden;
       z-index: 1;
       position: relative;
+
+      > swiper-container {
+        border-radius: 2rem;
+        background-color: var(--bkg-color);
+        overflow: hidden;
+      }
     }
   `);
+
+  const slides = useContext(SlidesContextId);
 
   return (
     <main>
       <Monitor />
 
-      <Slides.Carousel />
+      <Slides.Carousel
+        slides-per-view="3"
+        direction="vertical"
+        mousewheel
+        centered-slides="true"
+        grab-cursor="true"
+      >
+        {slides.array.map((s) => (
+          <Slides.Item key={s.id} slide={s}></Slides.Item>
+        ))}
+      </Slides.Carousel>
     </main>
   );
 });

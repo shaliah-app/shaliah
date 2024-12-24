@@ -1,18 +1,10 @@
-import {
-  $,
-  component$,
-  useContext,
-  useId,
-  useOnDocument,
-  useStylesScoped$,
-} from "@builder.io/qwik";
+import { component$, useContext, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 
 import { BooleanButton } from "./button";
 import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
-import type { Swiper } from "swiper/types";
-import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
+import { Slides } from "./slides";
 
 export const Monitor = component$(() => {
   useStylesScoped$(css`
@@ -34,48 +26,36 @@ export const Monitor = component$(() => {
         width: 100%;
         height: 100%;
       }
-    }
 
-    swiper-container {
-      width: 100%;
-      height: 100%;
+      & swiper-container {
+        width: 100%;
+        height: 100%;
 
-      position: absolute;
-      top: 0;
-      left: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
 
-      img {
-        transition-property: opacity;
-        transition-duration: 500ms;
-        transition-timing-function: ease-in;
-      }
+        img {
+          transition-property: opacity;
+          transition-duration: 500ms;
+          transition-timing-function: ease-in;
+        }
 
-      .swiper-slide-active img {
-        opacity: 0;
+        .swiper-slide-active img {
+          opacity: 0;
+        }
       }
     }
   `);
 
   const slides = useContext(SlidesContextId);
 
-  const id = lettersAndNumbers(useId());
-
-  useOnDocument(
-    `${id}slidechange`,
-    $((e) => {
-      const { swiper } = e.target as EventTarget & { swiper: Swiper };
-      const index = swiper.activeIndex;
-      slides.active = slides.array[index];
-    })
-  );
-
   return (
     <div>
       <iframe src="/present" loading="lazy"></iframe>
-      <swiper-container
+      <Slides.Carousel
         centered-slides="true"
         grab-cursor="true"
-        events-prefix={id}
         touch-release-on-edges="true"
       >
         {slides.array.map((s) => (
@@ -85,7 +65,7 @@ export const Monitor = component$(() => {
             </BooleanButton>
           </swiper-slide>
         ))}
-      </swiper-container>
+      </Slides.Carousel>
     </div>
   );
 });
