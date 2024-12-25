@@ -22,13 +22,13 @@ interface SlidesStore {
 }
 
 export const SlidesContextId = createContextId<SlidesStore>("slides");
-const { id } = SlidesContextId
+const { id } = SlidesContextId;
 
 export const SlidesContextProvider = component$(() => {
   const store = useStore<SlidesStore>(() => ({
     _active: null,
     get active() {
-      return this._active ?? (this.array[0] || null);
+      return this._active ?? ((this.array.length > 0 && this.array[0]) || null);
     },
     set active(value) {
       this._active = value;
@@ -36,7 +36,7 @@ export const SlidesContextProvider = component$(() => {
     array,
   }));
 
-  // TODO: Should be merged into one hook, 
+  // TODO: Should be merged into one hook,
   //       like useLocalStorage$().
   useStorage.Track$(id, store);
   useStorage.Sync$(id, store);
