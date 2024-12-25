@@ -35,6 +35,12 @@ export const Monitor = component$(() => {
         top: 0;
         left: 0;
 
+        opacity: 0;
+
+        &.moving {
+          opacity: 1;
+        }
+
         img {
           transition-property: opacity;
           transition-duration: 500ms;
@@ -54,9 +60,9 @@ export const Monitor = component$(() => {
     <div>
       <iframe src="/present" loading="lazy"></iframe>
       <Slides.Carousel
-        centered-slides="true"
         grab-cursor="true"
         touch-release-on-edges="true"
+        onMovementToggleClass="moving"
       >
         {slides.array.map((s) => (
           <swiper-slide key={s.id}>

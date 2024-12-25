@@ -36,9 +36,9 @@ export default component$(() => {
       <Slides.Carousel
         slides-per-view="3"
         direction="vertical"
-        mousewheel
         centered-slides="true"
         grab-cursor="true"
+        mousewheel
       >
         {slides.array.map((s) => (
           <Slides.Item key={s.id} slide={s}></Slides.Item>

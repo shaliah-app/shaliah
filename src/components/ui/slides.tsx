@@ -7,7 +7,9 @@ import {
   useContext,
   useId,
   useOnDocument,
+  useSignal,
   useStylesScoped$,
+  useTask$,
 } from "@builder.io/qwik";
 import type { Slide } from "~/contexts/slides-context";
 import { SlidesContextId } from "~/contexts/slides-context";
@@ -15,13 +17,22 @@ import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
 import { Button } from "./button";
+import { isBrowser } from "@builder.io/qwik/build";
 
-export const Carousel = component$<PropsOf<"div"> & SwiperOptions>((props) => {
+type Carousel = PropsOf<"div"> &
+  SwiperOptions & {
+    onMovementToggleClass?: string;
+  };
+type SwiperElement = HTMLElement & { swiper: Swiper };
+
+export const Carousel = component$<Carousel>((props) => {
   useStylesScoped$(css`
     swiper-container {
       height: 50%;
     }
   `);
+
+  const swiper = useSignal<SwiperElement>();
 
   const slides = useContext(SlidesContextId);
 
@@ -30,14 +41,40 @@ export const Carousel = component$<PropsOf<"div"> & SwiperOptions>((props) => {
   useOnDocument(
     `${id}slidechange`,
     $((e) => {
-      const { swiper } = e.target as EventTarget & { swiper: Swiper };
+      const { swiper } = e.target as SwiperElement;
       const index = swiper.activeIndex;
       slides.active = slides.array[index];
     })
   );
 
+  useOnDocument(
+    `DOMContentLoaded`,
+    $(() => {
+      if (props.onMovementToggleClass) {
+        document.addEventListener(`${id}sliderfirstmove`, (e) => {
+          const s = e.target as SwiperElement;
+          s.classList.add(props.onMovementToggleClass!);
+        });
+
+        document.addEventListener(`${id}transitionend`, (e) => {
+          const s = e.target as SwiperElement;
+          s.classList.remove(props.onMovementToggleClass!);
+        });
+      }
+    })
+  );
+
+  useTask$(({ track }) => {
+    const active = track(() => slides.active);
+    if (isBrowser && active) {
+      const s = swiper.value!;
+      const index = slides.array.findIndex((s) => s.id == active.id);
+      s.swiper.slideTo(index);
+    }
+  });
+
   return (
-    <swiper-container events-prefix={id} {...props}>
+    <swiper-container ref={swiper} events-prefix={id} {...props}>
       <Slot />
     </swiper-container>
   );
