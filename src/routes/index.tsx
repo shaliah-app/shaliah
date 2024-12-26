@@ -19,10 +19,11 @@ export default component$(() => {
       z-index: 1;
       position: relative;
 
-      > swiper-container {
+      > ul {
+        height: 50%;
         border-radius: 2rem;
         background-color: var(--bkg-color);
-        overflow: hidden;
+        overflow: scroll;
       }
     }
   `);
@@ -33,17 +34,12 @@ export default component$(() => {
     <main>
       <Monitor />
 
-      <Slides.Carousel
-        slides-per-view="3"
-        direction="vertical"
-        centered-slides="true"
-        grab-cursor="true"
-        mousewheel
-      >
+      <ul>
         {slides.array.map((s) => (
-          <Slides.Item key={s.id} slide={s}></Slides.Item>
+          <Slides.Item key={s.id} slide={s}>
+          </Slides.Item>
         ))}
-      </Slides.Carousel>
+      </ul>
     </main>
   );
 });

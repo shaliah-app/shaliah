@@ -11,13 +11,13 @@ import {
   useStylesScoped$,
   useTask$,
 } from "@builder.io/qwik";
-import type { Slide } from "~/contexts/slides-context";
-import { SlidesContextId } from "~/contexts/slides-context";
+import { type Slide, SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
-import { Button } from "./button";
+import { Button } from "../button";
 import { isBrowser } from "@builder.io/qwik/build";
+import transitions from "./slides-transitions.css?inline";
 
 type Carousel = PropsOf<"div"> &
   SwiperOptions & {
@@ -81,9 +81,11 @@ export const Carousel = component$<Carousel>((props) => {
 });
 
 export const Item = component$<{ slide: Slide }>((props) => {
+  useStylesScoped$(transitions);
   useStylesScoped$(css`
     .slide-root {
-      min-height: 5rem;
+      width: 100%;
+      height: 5rem;
 
       > swiper-container {
         height: 100%;
@@ -92,47 +94,6 @@ export const Item = component$<{ slide: Slide }>((props) => {
           width: auto;
         }
       }
-
-      /* ******************************** */
-      /* Start - Colors transition styles */
-      /* ******************************** */
-
-      transition-property: background-color, color;
-      transition-duration: 150ms;
-      transition-timing-function: ease-in-out;
-
-      --shade-color: rgb(0, 0, 0, 0);
-      --hover-color: rgb(255, 255, 255, 0);
-      --selected-color: var(--primary-color);
-      --selected-percentage: 0%;
-      --slide-bkg-color: color-mix(
-        in srgb,
-        var(--shade-color),
-        var(--selected-color) var(--selected-percentage)
-      );
-
-      background-color: color-mix(
-        in srgb,
-        var(--hover-color),
-        var(--slide-bkg-color)
-      );
-
-      &:hover {
-        --hover-color: rgb(255, 255, 255, 0.1);
-      }
-
-      &:nth-child(even) {
-        --shade-color: rgb(0, 0, 0, 0.1);
-      }
-
-      &.swiper-slide-active {
-        --selected-percentage: 100%;
-        color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
-      }
-
-      /* ****************************** */
-      /* End - Colors transition styles */
-      /* ****************************** */
     }
 
     .slide-content {
@@ -158,24 +119,21 @@ export const Item = component$<{ slide: Slide }>((props) => {
         }
       }
 
-      & .preview-wrapper {
+      & img {
         width: 25%;
+        height: 100%;
+        object-fit: contain !important;
 
         display: grid;
         place-content: center;
         flex-shrink: 0;
         overflow: hidden;
-
-        > img {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
       }
     }
 
-    aside {
+    .slide-controls {
       display: flex;
+      width: fit-content;
       padding: 1rem;
       /* background-color: var(--primary-color); */
     }
@@ -184,31 +142,31 @@ export const Item = component$<{ slide: Slide }>((props) => {
   const slides = useContext(SlidesContextId);
 
   return (
-    <swiper-slide class="slide-root">
-      <swiper-container slides-per-view="auto" touch-release-on-edges="true">
-        <swiper-slide class="slide-content">
-          <span>{props.slide.file_name}</span>
-          <div class="preview-wrapper" role="none">
-            <Image src={props.slide.preview} />
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <aside role="toolbar" aria-label="Slide controls">
-            <Button
-              onClick$={() =>
-                (slides.array = slides.array.filter(
-                  (s) => s.id != props.slide.id
-                ))
-              }
-              class="red size-lg"
-              tabIndex={-1}
-              icon="delete"
-              aria-label="Delete slide"
-            />
-          </aside>
-        </swiper-slide>
-      </swiper-container>
-    </swiper-slide>
+    <swiper-container
+      class="slide-root"
+      slides-per-view="auto"
+      touch-release-on-edges="true"
+    >
+      <swiper-slide class="slide-content">
+        <span>{props.slide.file_name}</span>
+        <Image layout="fixed" src={props.slide.preview} />
+      </swiper-slide>
+      <swiper-slide class="slide-controls">
+        <aside role="toolbar" aria-label="Slide controls">
+          <Button
+            onClick$={() =>
+              (slides.array = slides.array.filter(
+                (s) => s.id != props.slide.id
+              ))
+            }
+            class="red size-lg"
+            tabIndex={-1}
+            icon="delete"
+            aria-label="Delete slide"
+          />
+        </aside>
+      </swiper-slide>
+    </swiper-container>
   );
 });
 
