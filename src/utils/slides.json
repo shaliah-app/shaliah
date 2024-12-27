@@ -23,5 +23,30 @@
     "id": 5,
     "file_name": "SpookyFrozenMountains.png",
     "preview": "slide-placeholder-5.jpg"
+  },
+  {
+    "id": 6,
+    "file_name": "peakWithAReallyBigNameIThinkAtLeast.jpg",
+    "preview": "slide-placeholder-1.jpg"
+  },
+  {
+    "id": 7,
+    "file_name": "repeated_from-the-sky.png",
+    "preview": "slide-placeholder-2.jpg"
+  },
+  {
+    "id": 8,
+    "file_name": "repeated_lavender fields by chopin.jpg",
+    "preview": "slide-placeholder-3.jpg"
+  },
+  {
+    "id": 9,
+    "file_name": "repeated_SunsetBest.jpg",
+    "preview": "slide-placeholder-4.jpg"
+  },
+  {
+    "id": 10,
+    "file_name": "repeated_SpookyFrozenMountains.png",
+    "preview": "slide-placeholder-5.jpg"
   }
 ]
