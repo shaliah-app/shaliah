@@ -8,6 +8,7 @@ import {
   useId,
   useOnDocument,
   useSignal,
+  useStyles$,
   useStylesScoped$,
   useTask$,
 } from "@builder.io/qwik";
@@ -17,6 +18,7 @@ import { css } from "~/utils/css";
 import { lettersAndNumbers } from "~/utils/letters-and-numbers-substring";
 import { Button } from "../button";
 import { isBrowser } from "@builder.io/qwik/build";
+import { Carousel as Car } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 
 type Carousel = PropsOf<"div"> &
@@ -82,22 +84,10 @@ export const Carousel = component$<Carousel>((props) => {
 
 export const Item = component$<{ slide: Slide }>((props) => {
   useStylesScoped$(transitions);
-  useStylesScoped$(css`
-    .slide-root {
-      width: 100%;
-      height: 5rem;
-
-      > swiper-container {
-        height: 100%;
-
-        & swiper-slide {
-          width: auto;
-        }
-      }
-    }
-
+  useStyles$(css`
     .slide-content {
       max-width: 100%;
+      flex-grow: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -121,11 +111,9 @@ export const Item = component$<{ slide: Slide }>((props) => {
 
       & img {
         width: 25%;
-        height: 100%;
+        aspect-ratio: 1;
+        object-position: center;
         object-fit: contain !important;
-
-        display: grid;
-        place-content: center;
         flex-shrink: 0;
         overflow: hidden;
       }
@@ -135,6 +123,7 @@ export const Item = component$<{ slide: Slide }>((props) => {
       display: flex;
       width: fit-content;
       padding: 1rem;
+      flex-basis: content;
       /* background-color: var(--primary-color); */
     }
   `);
@@ -142,16 +131,13 @@ export const Item = component$<{ slide: Slide }>((props) => {
   const slides = useContext(SlidesContextId);
 
   return (
-    <swiper-container
-      class="slide-root"
-      slides-per-view="auto"
-      touch-release-on-edges="true"
-    >
-      <swiper-slide class="slide-content">
-        <span>{props.slide.file_name}</span>
-        <Image layout="fixed" src={props.slide.preview} />
-      </swiper-slide>
-      <swiper-slide class="slide-controls">
+    <Car.Root>
+      <Car.Scroller class="scroller">
+        <Car.Slide class="slide-content">
+          <span>{props.slide.file_name}</span>
+          <Image layout="fixed" src={props.slide.preview} />
+        </Car.Slide>
+        <Car.Slide class="slide-controls">
         <aside role="toolbar" aria-label="Slide controls">
           <Button
             onClick$={() =>
@@ -165,8 +151,9 @@ export const Item = component$<{ slide: Slide }>((props) => {
             aria-label="Delete slide"
           />
         </aside>
-      </swiper-slide>
-    </swiper-container>
+      </Car.Slide>
+      </Car.Scroller>
+    </Car.Root>
   );
 });
 
