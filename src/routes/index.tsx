@@ -24,6 +24,10 @@ export default component$(() => {
         border-radius: 2rem;
         background-color: var(--bkg-color);
         overflow: scroll;
+
+        > :nth-child(even) .slide-content {
+          --shade-color: rgb(0, 0, 0, 0.1);
+        }
       }
     }
   `);
@@ -36,8 +40,7 @@ export default component$(() => {
 
       <ul>
         {slides.array.map((s) => (
-          <Slides.Item key={s.id} slide={s}>
-          </Slides.Item>
+          <Slides.Item key={s.id} slide={s} />
         ))}
       </ul>
     </main>

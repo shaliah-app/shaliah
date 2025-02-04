@@ -29,7 +29,7 @@
   "devDependencies": {
     "@builder.io/qwik": "^1.9.0",
     "@builder.io/qwik-city": "^1.9.0",
-    "@qwik-ui/headless": "^0.6.3",
+    "@qwik-ui/headless": "^0.6.4",
     "@types/eslint": "8.56.10",
     "@types/node": "20.14.11",
     "@typescript-eslint/eslint-plugin": "7.16.1",
@@ -38,7 +38,6 @@
     "eslint": "8.57.0",
     "eslint-plugin-qwik": "^1.9.0",
     "prettier": "3.3.3",
-    "swiper": "^11.1.15",
     "typescript": "5.4.5",
     "undici": "*",
     "vite": "^5.4.11",

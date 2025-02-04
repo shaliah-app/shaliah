@@ -1,10 +1,5 @@
-import { component$, useContext, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, useStylesScoped$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
-
-import { BooleanButton } from "./button";
-import { SlidesContextId } from "~/contexts/slides-context";
-import { Image } from "@unpic/qwik";
-import { Slides } from "./slides";
 
 export const Monitor = component$(() => {
   useStylesScoped$(css`
@@ -17,16 +12,17 @@ export const Monitor = component$(() => {
       position: relative;
 
       & iframe {
+        width: 100%;
+        height: 100%;
+
         /* TODO: should be according monitor screen size, and not fixed like this */
         aspect-ratio: 16 / 10;
       }
 
-      & iframe,
-      label {
-        width: 100%;
-        height: 100%;
-      }
-
+      /* TODO: unused until bind:selectedIndex is fixed. 
+               should be used to allow the user to slide
+               the iframe and change the active slide
+      */
       & swiper-container {
         width: 100%;
         height: 100%;
@@ -54,24 +50,9 @@ export const Monitor = component$(() => {
     }
   `);
 
-  const slides = useContext(SlidesContextId);
-
   return (
     <div>
       <iframe src="/present" loading="lazy"></iframe>
-      <Slides.Carousel
-        grab-cursor="true"
-        touch-release-on-edges="true"
-        onMovementToggleClass="moving"
-      >
-        {slides.array.map((s) => (
-          <swiper-slide key={s.id}>
-            <BooleanButton class="wrapper">
-              <Image src={s.preview} />
-            </BooleanButton>
-          </swiper-slide>
-        ))}
-      </Slides.Carousel>
     </div>
   );
 });
