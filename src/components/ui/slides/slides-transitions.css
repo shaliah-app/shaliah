@@ -1,4 +1,4 @@
-.slide-root {
+.slide-content {
   transition-property: background-color, color;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
@@ -23,11 +23,7 @@
     --hover-color: rgb(255, 255, 255, 0.1);
   }
 
-  &:nth-child(even) {
-    --shade-color: rgb(0, 0, 0, 0.1);
-  }
-
-  &.swiper-slide-active {
+  &.active {
     --selected-percentage: 100%;
     color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
   }

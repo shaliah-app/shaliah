@@ -83,7 +83,7 @@ export const Carousel = component$<Carousel>((props) => {
 });
 
 export const Item = component$<{ slide: Slide }>((props) => {
-  useStylesScoped$(transitions);
+  useStyles$(transitions);
   useStyles$(css`
     .slide-content {
       max-width: 100%;
@@ -133,7 +133,7 @@ export const Item = component$<{ slide: Slide }>((props) => {
   return (
     <Car.Root>
       <Car.Scroller class="scroller">
-        <Car.Slide class="slide-content">
+        <Car.Slide class={`slide-content ${slides.active == props.slide && 'active'}`}>
           <span>{props.slide.file_name}</span>
           <Image layout="fixed" src={props.slide.preview} />
         </Car.Slide>
