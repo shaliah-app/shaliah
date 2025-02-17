@@ -1,7 +1,7 @@
 /**
  * Removes all special characters from a string,
  * returning only its letters and numbers.
- * 
+ *
  * @param string with special characters
  * @returns modified string
  */

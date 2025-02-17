@@ -1,4 +1,9 @@
-import { type PropsOf, component$, useContext, useStylesScoped$ } from "@builder.io/qwik";
+import {
+  type PropsOf,
+  component$,
+  useContext,
+  useStylesScoped$,
+} from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
 import { SlidesContextId } from "~/contexts/slides-context";
@@ -38,11 +43,11 @@ export const PresentationScreen = component$<
     }
   `);
 
-  const slides = useContext(SlidesContextId)
+  const slides = useContext(SlidesContextId);
 
   return (
     <figure {...props}>
-      <Image src={`../${slides.active!.preview}`}/>
+      <Image src={`../${slides.active!.preview}`} />
     </figure>
   );
 });

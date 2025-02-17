@@ -31,7 +31,7 @@ function Sync$<STATE extends object>(key: string, state: STATE) {
         const obj = JSON.parse(String(e.newValue));
         Object.assign(state, obj);
       }
-    })
+    }),
   );
 }
 

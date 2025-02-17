@@ -124,5 +124,5 @@ export const BooleanButton = component$<PropsOf<"label"> & Variants>(
         <input type="checkbox" />
       </label>
     );
-  }
+  },
 );
