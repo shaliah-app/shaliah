@@ -2,7 +2,7 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { component$, useContext, useStyles$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
-import { Slides } from "~/components/ui/slides";
+import { Slide } from "~/components/ui/slide";
 import { SlidesContextId } from "~/contexts/slides-context";
 
 export default component$(() => {
@@ -40,7 +40,7 @@ export default component$(() => {
 
       <ul>
         {slides.array.map((s) => (
-          <Slides.Item key={s.id} slide={s} />
+          <Slide key={s.id} slide={s} />
         ))}
       </ul>
     </main>

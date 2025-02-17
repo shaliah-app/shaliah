@@ -9,16 +9,16 @@ import {
 import array from "~/utils/slides.json";
 import { useStorage } from "~/hooks/storage-hook";
 
-export interface Slide {
+export interface SlideEntity {
   id: number;
   file_name: string;
   preview: string;
 }
 
 interface SlidesStore {
-  _active: Slide | null;
-  active: Slide | null;
-  array: Slide[];
+  _active: SlideEntity | null;
+  active: SlideEntity | null;
+  array: SlideEntity[];
 }
 
 export const SlidesContextId = createContextId<SlidesStore>("slides");

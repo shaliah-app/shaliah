@@ -1,12 +1,12 @@
 import { component$, useContext, useStyles$ } from "@builder.io/qwik";
-import { type Slide, SlidesContextId } from "~/contexts/slides-context";
+import { type SlideEntity, SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
 import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 
-export const Item = component$<{ slide: Slide }>((props) => {
+export const Slide = component$<{ slide: SlideEntity }>((props) => {
   useStyles$(transitions);
   useStyles$(css`
     .slide-content {
@@ -83,4 +83,3 @@ export const Item = component$<{ slide: Slide }>((props) => {
   );
 });
 
-export const Slides = { Item };
