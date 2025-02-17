@@ -1,10 +1,11 @@
-import { component$, useContext, useStyles$ } from "@builder.io/qwik";
+import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
 import { type SlideEntity, SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
 import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
+import { useDoubleClick } from "~/hooks/use-double-click";
 
 export const Slide = component$<{ slide: SlideEntity }>((props) => {
   useStyles$(transitions);
@@ -54,10 +55,17 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
 
   const slides = useContext(SlidesContextId);
 
+  const handleDoubleClick$ = useDoubleClick(
+    $(() => {
+      slides.active = props.slide;
+    })
+  );
+
   return (
     <Carousel.Root>
       <Carousel.Scroller class="scroller">
         <Carousel.Slide
+          onClick$={handleDoubleClick$}
           class={`slide-content ${slides.active == props.slide && "active"}`}
         >
           <span>{props.slide.file_name}</span>
@@ -68,7 +76,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
             <Button
               onClick$={() =>
                 (slides.array = slides.array.filter(
-                  (s) => s.id != props.slide.id,
+                  (s) => s.id != props.slide.id
                 ))
               }
               class="red size-lg"
@@ -82,4 +90,3 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
     </Carousel.Root>
   );
 });
-
