@@ -63,6 +63,9 @@ const styles = css`
     /****************/
     /*** Variants ***/
     /****************/
+    /* TODO: Should be turned into props
+             for better documentation 
+    */
 
     &.red {
       --background-color: var(--red-color);
@@ -87,12 +90,22 @@ const styles = css`
       }
     }
 
+    &.no-size {
+      width: initial;
+      height: initial;
+    }
+
     &.size-lg {
       --size: 1rem;
     }
 
     &.size-xl {
       --size: 2rem;
+    }
+
+    &.full-size {
+      width: 100%;
+      height: 100%;
     }
   }
 `;

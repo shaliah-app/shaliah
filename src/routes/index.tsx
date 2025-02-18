@@ -4,6 +4,8 @@ import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
 import { Slide } from "~/components/ui/slide";
 import { SlidesContextId } from "~/contexts/slides-context";
+import { Button } from "~/components/ui/button";
+import { FileUpload } from "~/components/file-upload";
 
 export default component$(() => {
   useStyles$(css`
@@ -13,6 +15,7 @@ export default component$(() => {
       padding: 1rem;
 
       display: grid;
+      align-content: space-between;
       grid-template-columns: 100%;
 
       overflow: hidden;
@@ -20,10 +23,26 @@ export default component$(() => {
       position: relative;
 
       > ul {
-        height: 50%;
+        height: fit-content;
         border-radius: 2rem;
         background-color: var(--bkg-color);
-        overflow: scroll;
+        overflow: auto;
+
+        display: grid;
+        gap: 1rem;
+        color: color-mix(in srgb, var(--primary-color) 100%, black 10%);
+
+        & #upload {
+          padding: 2rem;
+          justify-content: space-between;
+
+          font-weight: 500;
+          font-size: 1.25rem;
+          
+          > i {
+            font-size: 3rem;
+          }
+        }
 
         > :nth-child(even) .slide-content {
           --shade-color: rgb(0, 0, 0, 0.1);
@@ -39,9 +58,15 @@ export default component$(() => {
       <Monitor />
 
       <ul>
-        {slides.array.map((s) => (
-          <Slide key={s.id} slide={s} />
-        ))}
+        {slides.array.length ? (
+          slides.array.map((s) => <Slide key={s.id} slide={s} />)
+        ) : (
+          <FileUpload onFilesSelected$={(files) => console.log(files)} multiple={true}>
+            <Button id="upload" class="full-size" icon="add">
+              Add slides
+            </Button>
+          </FileUpload>
+        )}
       </ul>
     </main>
   );
