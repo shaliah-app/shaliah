@@ -1,11 +1,12 @@
 import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
-import { type SlideEntity, SlidesContextId } from "~/contexts/slides-context";
+import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
 import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 import { useDoubleClick } from "~/hooks/use-double-click";
+import type { SlideEntity } from "~/types/SlideEntity";
 
 export const Slide = component$<{ slide: SlideEntity }>((props) => {
   useStyles$(transitions);
@@ -68,7 +69,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
           onClick$={handleDoubleClick$}
           class={`slide-content ${slides.active == props.slide && "active"}`}
         >
-          <span>{props.slide.file_name}</span>
+          <span>{props.slide.fileName}</span>
           <Image layout="fixed" src={props.slide.preview} />
         </Carousel.Slide>
         <Carousel.Slide class="slide-controls">

@@ -8,12 +8,7 @@ import {
 
 import array from "~/utils/slides.json";
 import { useStorage } from "~/hooks/storage-hook";
-
-export interface SlideEntity {
-  id: number;
-  file_name: string;
-  preview: string;
-}
+import { type SlideEntity } from "~/types/SlideEntity";
 
 interface SlidesStore {
   _active: SlideEntity | null;

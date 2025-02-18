@@ -1,52 +1,52 @@
 [
   {
     "id": 1,
-    "file_name": "peak.jpg",
+    "fileName": "peak.jpg",
     "preview": "slide-placeholder-1.jpg"
   },
   {
     "id": 2,
-    "file_name": "from-the-sky.png",
+    "fileName": "from-the-sky.png",
     "preview": "slide-placeholder-2.jpg"
   },
   {
     "id": 3,
-    "file_name": "lavender fields by chopin.jpg",
+    "fileName": "lavender fields by chopin.jpg",
     "preview": "slide-placeholder-3.jpg"
   },
   {
     "id": 4,
-    "file_name": "SunsetBest.jpg",
+    "fileName": "SunsetBest.jpg",
     "preview": "slide-placeholder-4.jpg"
   },
   {
     "id": 5,
-    "file_name": "SpookyFrozenMountains.png",
+    "fileName": "SpookyFrozenMountains.png",
     "preview": "slide-placeholder-5.jpg"
   },
   {
     "id": 6,
-    "file_name": "peakWithAReallyBigNameIThinkAtLeast.jpg",
+    "fileName": "peakWithAReallyBigNameIThinkAtLeast.jpg",
     "preview": "slide-placeholder-1.jpg"
   },
   {
     "id": 7,
-    "file_name": "repeated_from-the-sky.png",
+    "fileName": "repeated_from-the-sky.png",
     "preview": "slide-placeholder-2.jpg"
   },
   {
     "id": 8,
-    "file_name": "repeated_lavender fields by chopin.jpg",
+    "fileName": "repeated_lavender fields by chopin.jpg",
     "preview": "slide-placeholder-3.jpg"
   },
   {
     "id": 9,
-    "file_name": "repeated_SunsetBest.jpg",
+    "fileName": "repeated_SunsetBest.jpg",
     "preview": "slide-placeholder-4.jpg"
   },
   {
     "id": 10,
-    "file_name": "repeated_SpookyFrozenMountains.png",
+    "fileName": "repeated_SpookyFrozenMountains.png",
     "preview": "slide-placeholder-5.jpg"
   }
 ]
