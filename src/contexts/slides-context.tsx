@@ -1,14 +1,17 @@
 import {
+  $,
   component$,
   createContextId,
   Slot,
   useContextProvider,
+  useOnWindow,
   useStore,
 } from "@builder.io/qwik";
 
-import array from "~/utils/slides.json";
+// import array from "~/utils/slides.json";
 import { useStorage } from "~/hooks/storage-hook";
 import { type SlideEntity } from "~/types/SlideEntity";
+import { getAllSlides } from "~/db/idb";
 
 interface SlidesStore {
   _active: SlideEntity | null;
@@ -28,8 +31,25 @@ export const SlidesContextProvider = component$(() => {
     set active(value) {
       this._active = value;
     },
-    array,
+    array: [],
   }));
+
+  useOnWindow('load', $(async () => {
+
+    getAllSlides().then((slides) => {
+      slides.forEach((slide) => {
+        const s = {
+          id: slide.id,
+          fileName: slide.file.name,
+          preview: URL.createObjectURL(slide.file),
+        }
+        store.array.push(s);
+      });
+    })
+
+  }))
+
+  
 
   // TODO: Should be merged into one hook,
   //       like useLocalStorage$().

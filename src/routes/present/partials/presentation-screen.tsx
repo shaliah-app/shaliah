@@ -47,7 +47,7 @@ export const PresentationScreen = component$<
 
   return (
     <figure {...props}>
-      {slides.active && <Image src={`../${slides.active!.preview}`} />}
+      {slides.active && <Image src={slides.active!.preview} />}
     </figure>
   );
 });

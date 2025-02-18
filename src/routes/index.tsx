@@ -5,7 +5,7 @@ import { Monitor } from "~/components/ui/monitor";
 import { Slide } from "~/components/ui/slide";
 import { SlidesContextId } from "~/contexts/slides-context";
 import { Button } from "~/components/ui/button";
-import { FileUpload } from "~/components/file-upload";
+import { SlidePicker } from "~/components/file-picker";
 
 export default component$(() => {
   useStyles$(css`
@@ -61,11 +61,11 @@ export default component$(() => {
         {slides.array.length ? (
           slides.array.map((s) => <Slide key={s.id} slide={s} />)
         ) : (
-          <FileUpload onFilesSelected$={(files) => console.log(files)} multiple={true}>
+          <SlidePicker>
             <Button id="upload" class="full-size" icon="add">
               Add slides
             </Button>
-          </FileUpload>
+          </SlidePicker>
         )}
       </ul>
     </main>

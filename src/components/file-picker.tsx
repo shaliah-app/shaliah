@@ -1,17 +1,18 @@
 import type { QRL } from "@builder.io/qwik";
 import { component$, useSignal, $, Slot } from "@builder.io/qwik";
+import { usePresentation } from "~/hooks/use-presentation";
 
-interface FileUploadProps {
+interface FilePickerProps {
   accept?: string;
   multiple?: boolean;
   onFilesSelected$: QRL<(files: File[]) => void>;
 }
 
-export const FileUpload = component$((props: FileUploadProps) => {
+export const FilePicker = component$((props: FilePickerProps) => {
   const fileInputRef = useSignal<HTMLInputElement>();
 
   // Trigger the hidden file input when the wrapper is clicked
-  const triggerFileUpload$ = $(() => {
+  const triggerFilePicker$ = $(() => {
     fileInputRef.value?.click();
   });
 
@@ -42,9 +43,23 @@ export const FileUpload = component$((props: FileUploadProps) => {
         onChange$={handleFileChange$}
         style="display: none"
       />
-      <div onClick$={triggerFileUpload$} style="height: fit-content;">
+      <div onClick$={triggerFilePicker$} style="height: fit-content;">
         <Slot />
       </div>
     </>
+  );
+});
+
+export const SlidePicker = component$(() => {
+  const { addSlideFromFiles } = usePresentation()
+
+  const storeSlides$ = $(async (files: File[]) => {
+    addSlideFromFiles(files);
+  });
+
+  return (
+    <FilePicker onFilesSelected$={storeSlides$} multiple={true}>
+      <Slot />
+    </FilePicker>
   );
 });
