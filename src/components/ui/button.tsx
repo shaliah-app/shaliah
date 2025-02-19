@@ -107,6 +107,12 @@ const styles = css`
       width: 100%;
       height: 100%;
     }
+
+    &.secondary {
+      --background-color: var(--secondary-color);
+      --shade-color: black;
+      color: var(--black-color);
+    }
   }
 `;
 
