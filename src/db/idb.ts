@@ -65,17 +65,20 @@ const getSlideFile = async (id: number): Promise<Blob> => {
 };
 
 /**
- * Retrieves all slides from the IndexedDB.
+ * Retrieves all slide files from the IndexedDB.
  *
- * @returns A promise that resolves with an array of all slide objects.
+ * @returns A promise that resolves with an array of all slide file.
  */
-const getAllSlides = async (): Promise<{ id: number; file: File }[]> => {
+const getAllFiles = async (): Promise<File[]> => {
   const db = await openSlidesDB();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readonly');
     const store = transaction.objectStore(STORE_NAME);
     const request = store.getAll();
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      const files = request.result.map((slide: { id: number; file: File }) => slide.file);
+      resolve(files);
+    };
     request.onerror = () => reject(request.error);
   });
 };
@@ -97,4 +100,4 @@ const removeSlide = async (id: number): Promise<void> => {
   });
 };
 
-export const IndexedDBService = { saveSlideFile, getSlideFile, getAllSlides, removeSlide };
+export const IndexedDBService = { saveSlideFile, getSlideFile, getAllFiles, removeSlide };

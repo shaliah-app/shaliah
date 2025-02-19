@@ -1,6 +1,6 @@
 import type { QRL } from "@builder.io/qwik";
-import { component$, useSignal, $, Slot } from "@builder.io/qwik";
-import { usePresentation } from "~/hooks/use-presentation";
+import { component$, useSignal, $, Slot, useContext } from "@builder.io/qwik";
+import { SlidesContextId } from "~/contexts/slides-context";
 
 interface FilePickerProps {
   accept?: string;
@@ -51,10 +51,10 @@ export const FilePicker = component$((props: FilePickerProps) => {
 });
 
 export const SlidePicker = component$(() => {
-  const { addSlideFromFiles } = usePresentation()
+  const slides = useContext(SlidesContextId);
 
   const storeSlides$ = $(async (files: File[]) => {
-    addSlideFromFiles(files);
+    slides.add(files);
   });
 
   return (
