@@ -5,7 +5,7 @@ const DB_VERSION = 1;
 /**
  * Opens (and upgrades) the IndexedDB database.
  */
-export const openSlidesDB = (): Promise<IDBDatabase> => {
+const openSlidesDB = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = () => {
@@ -25,7 +25,7 @@ export const openSlidesDB = (): Promise<IDBDatabase> => {
  * @param slideId - Unique identifier for the slide.
  * @param file - The file blob to be stored.
  */
-export const saveSlideFile = async (
+const saveSlideFile = async (
   slideId: number,
   file: Blob
 ): Promise<void> => {
@@ -47,7 +47,7 @@ export const saveSlideFile = async (
  * @param id - The slide id to look up.
  * @returns A promise that resolves with the file blob.
  */
-export const getSlideFile = async (id: number): Promise<Blob> => {
+const getSlideFile = async (id: number): Promise<Blob> => {
   const db = await openSlidesDB();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readonly');
@@ -69,7 +69,7 @@ export const getSlideFile = async (id: number): Promise<Blob> => {
  *
  * @returns A promise that resolves with an array of all slide objects.
  */
-export const getAllSlides = async (): Promise<{ id: number; file: File }[]> => {
+const getAllSlides = async (): Promise<{ id: number; file: File }[]> => {
   const db = await openSlidesDB();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(STORE_NAME, 'readonly');
@@ -79,3 +79,22 @@ export const getAllSlides = async (): Promise<{ id: number; file: File }[]> => {
     request.onerror = () => reject(request.error);
   });
 };
+
+/**
+ * Removes a slide from the IndexedDB.
+ *
+ * @param id - The slide id to be removed.
+ * @returns A promise that resolves when the slide is removed.
+ */
+const removeSlide = async (id: number): Promise<void> => {
+  const db = await openSlidesDB();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.delete(id);
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+};
+
+export const IndexedDBService = { saveSlideFile, getSlideFile, getAllSlides, removeSlide };

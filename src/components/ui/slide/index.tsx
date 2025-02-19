@@ -7,6 +7,7 @@ import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 import { useDoubleClick } from "~/hooks/use-double-click";
 import type { SlideEntity } from "~/types/SlideEntity";
+import { usePresentation } from "~/hooks/use-presentation";
 
 export const Slide = component$<{ slide: SlideEntity }>((props) => {
   useStyles$(transitions);
@@ -55,6 +56,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
   `);
 
   const slides = useContext(SlidesContextId);
+  const presentation = usePresentation()
 
   const handleDoubleClick$ = useDoubleClick(
     $(() => {
@@ -75,11 +77,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
         <Carousel.Slide class="slide-controls">
           <aside role="toolbar" aria-label="Slide controls">
             <Button
-              onClick$={() =>
-                (slides.array = slides.array.filter(
-                  (s) => s.id != props.slide.id
-                ))
-              }
+              onClick$={() => presentation.removeSlide(props.slide.id)}
               class="red size-lg"
               tabIndex={-1}
               icon="delete"
