@@ -37,7 +37,7 @@ export default component$(() => {
         }
       }
 
-      & menu[role=toolbar] {
+      & menu[role="toolbar"] {
         width: fit-content;
 
         display: grid;
@@ -86,11 +86,11 @@ export default component$(() => {
             <ul>
               {slides.array.length &&
                 slides.array.map((s) => <Slide key={s.id} slide={s} />)}
-            <menu role="toolbar">
-              <SlidePicker>
-                <Button class="secondary" icon="add" />
-              </SlidePicker>
-            </menu>
+              <menu role="toolbar">
+                <SlidePicker>
+                  <Button class="secondary" icon="add" />
+                </SlidePicker>
+              </menu>
             </ul>
           </>
         ) : (
