@@ -22,30 +22,53 @@ export default component$(() => {
       z-index: 1;
       position: relative;
 
-      > ul {
+      & ul {
+        max-height: 40vh;
         height: fit-content;
         border-radius: 2rem;
         background-color: var(--bkg-color);
         overflow: auto;
 
         display: grid;
-        gap: 1rem;
         color: color-mix(in srgb, var(--primary-color) 100%, black 10%);
-
-        & #upload {
-          padding: 2rem;
-          justify-content: space-between;
-
-          font-weight: 500;
-          font-size: 1.25rem;
-          
-          > i {
-            font-size: 3rem;
-          }
-        }
 
         > :nth-child(even) .slide-content {
           --shade-color: rgb(0, 0, 0, 0.1);
+        }
+      }
+
+      & menu[role=toolbar] {
+        width: fit-content;
+
+        display: grid;
+        padding: 0.625rem;
+        margin-top: 2rem;
+        margin-inline: 1rem;
+        border-radius: 1rem;
+        justify-content: end;
+
+        background-color: color-mix(
+          in srgb,
+          var(--primary-color) 100%,
+          black 20%
+        );
+        box-shadow: 0px 5px 10px #00000025;
+
+        position: sticky;
+        bottom: 1rem;
+        z-index: 1;
+      }
+
+      & #upload {
+        padding: 2rem;
+        justify-content: space-between;
+
+        font-weight: 500;
+        font-size: 1.25rem;
+        border-radius: 2rem;
+
+        > i {
+          font-size: 3rem;
         }
       }
     }
@@ -57,9 +80,19 @@ export default component$(() => {
     <main>
       <Monitor />
 
-      <ul>
+      <div>
         {slides.array.length ? (
-          slides.array.map((s) => <Slide key={s.id} slide={s} />)
+          <>
+            <ul>
+              {slides.array.length &&
+                slides.array.map((s) => <Slide key={s.id} slide={s} />)}
+            <menu role="toolbar">
+              <SlidePicker>
+                <Button class="secondary" icon="add" />
+              </SlidePicker>
+            </menu>
+            </ul>
+          </>
         ) : (
           <SlidePicker>
             <Button id="upload" class="full-size" icon="add">
@@ -67,7 +100,7 @@ export default component$(() => {
             </Button>
           </SlidePicker>
         )}
-      </ul>
+      </div>
     </main>
   );
 });
