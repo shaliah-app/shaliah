@@ -19,6 +19,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
       justify-content: space-between;
       align-items: center;
       overflow: hidden;
+      user-select: none;
 
       > span {
         width: 100%;
