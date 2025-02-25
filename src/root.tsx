@@ -6,7 +6,8 @@ import {
 } from "@builder.io/qwik-city";
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
-import { SlidesContextProvider } from "./contexts/slides-context";
+import { SlidesContextProvider } from "./contexts/SlidesContext";
+import { PresentationContextProvider } from "./contexts/PresentationContext";
 
 import "./global.css";
 
@@ -46,10 +47,12 @@ export default component$(() => {
         />
       </head>
       <body lang="pt-br">
-        <SlidesContextProvider>
-          <RouterOutlet />
-          {!isDev && <ServiceWorkerRegister />}
-        </SlidesContextProvider>
+        <PresentationContextProvider>
+          <SlidesContextProvider>
+            <RouterOutlet />
+            {!isDev && <ServiceWorkerRegister />}
+          </SlidesContextProvider>
+        </PresentationContextProvider>
       </body>
     </QwikCityProvider>
   );

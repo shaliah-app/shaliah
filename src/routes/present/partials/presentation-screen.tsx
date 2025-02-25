@@ -6,7 +6,7 @@ import {
 } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
-import { SlidesContextId } from "~/contexts/slides-context";
+import { SlidesContextId } from "~/contexts/SlidesContext";
 
 export const PresentationScreen = component$<
   PropsOf<"figure"> & {
@@ -47,7 +47,7 @@ export const PresentationScreen = component$<
 
   return (
     <figure {...props}>
-      {slides.active && <Image src={slides.active!.preview} />}
+      {slides.state.active.preview && <Image src={slides.state.active.preview} />}
     </figure>
   );
 });

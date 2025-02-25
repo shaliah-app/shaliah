@@ -1,6 +1,6 @@
 import type { QRL } from "@builder.io/qwik";
 import { component$, useSignal, $, Slot, useContext } from "@builder.io/qwik";
-import { SlidesContextId } from "~/contexts/slides-context";
+import { SlidesContextId } from "~/contexts/SlidesContext";
 
 interface FilePickerProps {
   accept?: string;
@@ -38,7 +38,7 @@ export const FilePicker = component$((props: FilePickerProps) => {
       <input
         ref={fileInputRef}
         type="file"
-        accept={props.accept || "image/png,image/jpg,image/jpeg"}
+        accept={props.accept || "image/*"}
         multiple={props.multiple}
         onChange$={handleFileChange$}
         style="display: none"
@@ -53,12 +53,12 @@ export const FilePicker = component$((props: FilePickerProps) => {
 export const SlidePicker = component$(() => {
   const slides = useContext(SlidesContextId);
 
-  const storeSlides$ = $(async (files: File[]) => {
-    slides.add(files);
-  });
-
   return (
-    <FilePicker onFilesSelected$={storeSlides$} multiple={true}>
+    <FilePicker
+      onFilesSelected$={(files) => slides.actions.add(files)}
+      multiple={true}
+      accept="image/png,image/jpg,image/jpeg"
+    >
       <Slot />
     </FilePicker>
   );

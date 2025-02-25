@@ -1,5 +1,5 @@
+import type { PropsOf, QRL } from "@builder.io/qwik";
 import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
-import { SlidesContextId } from "~/contexts/slides-context";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
@@ -7,8 +7,14 @@ import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 import { useDoubleClick } from "~/hooks/use-double-click";
 import type { SlideEntity } from "~/types/SlideEntity";
+import { SlidesContextId } from "~/contexts/SlidesContext";
 
-export const Slide = component$<{ slide: SlideEntity }>((props) => {
+interface SlideProps {
+  slide: SlideEntity;
+  onDoubleClick$?: QRL<(slide: SlideEntity) => void>;
+}
+
+export const Slide = component$<PropsOf<"div"> & SlideProps>((props) => {
   useStyles$(transitions);
   useStyles$(css`
     .slide-content {
@@ -59,7 +65,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
 
   const handleDoubleClick$ = useDoubleClick(
     $(() => {
-      slides.active = props.slide;
+      slides.state.active = props.slide;
     })
   );
 
@@ -68,7 +74,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
       <Carousel.Scroller class="scroller">
         <Carousel.Slide
           onClick$={handleDoubleClick$}
-          class={`slide-content ${slides.active == props.slide && "active"}`}
+          class={`slide-content ${slides.state.active == props.slide && "active"}`}
         >
           <span>{props.slide.fileName}</span>
           <Image layout="fixed" src={props.slide.preview} />
@@ -76,7 +82,7 @@ export const Slide = component$<{ slide: SlideEntity }>((props) => {
         <Carousel.Slide class="slide-controls">
           <aside role="toolbar" aria-label="Slide controls">
             <Button
-              onClick$={() => slides.remove(props.slide.id)}
+              onClick$={() => slides.actions.remove(props.slide.id)}
               class="red size-lg"
               tabIndex={-1}
               icon="delete"

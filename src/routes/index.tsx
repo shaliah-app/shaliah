@@ -3,9 +3,9 @@ import { component$, useContext, useStyles$ } from "@builder.io/qwik";
 import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
 import { Slide } from "~/components/ui/slide";
-import { SlidesContextId } from "~/contexts/slides-context";
 import { Button } from "~/components/ui/button";
 import { SlidePicker } from "~/components/file-picker";
+import { SlidesContextId } from "~/contexts/SlidesContext";
 
 export default component$(() => {
   useStyles$(css`
@@ -81,11 +81,16 @@ export default component$(() => {
       <Monitor />
 
       <div>
-        {slides.array.length ? (
+        {slides.state.list.length ? (
           <>
             <ul>
-              {slides.array.length &&
-                slides.array.map((s) => <Slide key={s.id} slide={s} />)}
+              {slides.state.list.map((s) => (
+                <Slide
+                  key={s.id}
+                  slide={s}
+                  class={{ active: s == slides.state.active }}
+                />
+              ))}
               <menu role="toolbar">
                 <SlidePicker>
                   <Button class="secondary" icon="add" />
