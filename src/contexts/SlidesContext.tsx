@@ -31,12 +31,14 @@ export const SlidesContextId = createContextId<SlidesStore>("slides");
 export const SlidesContextProvider = component$(() => {
   const presentation = useContext(PresentationContextId);
 
+  const blankSlide = {
+    id: 0,
+    fileName: "black.jpg",
+    preview: "",
+  };
+
   const state = useStore<SlidesStore["state"]>({
-    active: {
-      id: 0,
-      fileName: "black.jpg",
-      preview: "",
-    },
+    active: blankSlide,
     list: [],
   });
 
@@ -59,8 +61,15 @@ export const SlidesContextProvider = component$(() => {
       const table = String(await presentation.getters.id());
       const db = IndexedDatabaseService(table);
       const index = state.list.findIndex((slide) => slide.id === id);
+
       if (index === -1) throw new Error(`Slide with id ${id} not found`);
-      state.list.splice(index, 1);
+      
+      if (state.active.id === id) {
+        state.active =
+          state.list[index + 1] || state.list[index - 1] || blankSlide;
+      }
+
+      state.list = state.list.filter((s) => s.id != id);
       await db.remove(String(id));
     }),
   }));
