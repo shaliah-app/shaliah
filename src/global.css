@@ -56,6 +56,8 @@ html {
 
   background-color: var(--primary-color);
   color: white;
+
+  touch-action: manipulation;
 }
 
 li::marker {
