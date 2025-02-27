@@ -19,8 +19,10 @@ interface SlidesStore {
   state: {
     active: SlideEntity;
     list: SlideEntity[];
+    nextSlideId: number;
   };
   actions: {
+    display: QRL<(slide: SlideEntity) => void>;
     remove: QRL<(id: number) => Promise<void>>;
     add: QRL<(files: File[]) => Promise<void>>;
   };
@@ -32,7 +34,7 @@ export const SlidesContextProvider = component$(() => {
   const presentation = useContext(PresentationContextId);
 
   const blankSlide = {
-    id: 0,
+    id: -1,
     fileName: "black.jpg",
     preview: "",
   };
@@ -40,22 +42,32 @@ export const SlidesContextProvider = component$(() => {
   const state = useStore<SlidesStore["state"]>({
     active: blankSlide,
     list: [],
+    nextSlideId: 0,
   });
+
+  const _displayNearest = $((index: number) => {
+    state.active =
+      state.list[index + 1] || state.list[index - 1] || blankSlide;
+  })
 
   const actions = useStore<SlidesStore["actions"]>(() => ({
     add: $(async (files: File[]) => {
       const table = String(await presentation.getters.id());
       const db = IndexedDatabaseService(table);
 
-      for (const file of files) {
-        const id = Date.now();
-        await db.save(String(id), file);
-        state.list.push({
-          id,
-          fileName: file.name,
-          preview: URL.createObjectURL(file),
-        });
-      }
+      const newSlides = await Promise.all(
+        files.map(async (file) => {
+          const id = state.nextSlideId++;
+          await db.save(String(id), file);
+          return {
+            id,
+            fileName: file.name,
+            preview: URL.createObjectURL(file),
+          };
+        })
+      );
+
+      state.list.push(...newSlides);
     }),
     remove: $(async (id: number) => {
       const table = String(await presentation.getters.id());
@@ -63,14 +75,14 @@ export const SlidesContextProvider = component$(() => {
       const index = state.list.findIndex((slide) => slide.id === id);
 
       if (index === -1) throw new Error(`Slide with id ${id} not found`);
-      
-      if (state.active.id === id) {
-        state.active =
-          state.list[index + 1] || state.list[index - 1] || blankSlide;
-      }
+
+      if (state.active.id === id) _displayNearest(index);
 
       state.list = state.list.filter((s) => s.id != id);
       await db.remove(String(id));
+    }),
+    display: $((slide) => {
+      state.active = slide;
     }),
   }));
 
