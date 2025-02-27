@@ -1,4 +1,4 @@
-import type { PropsOf, QRL } from "@builder.io/qwik";
+import type { PropsOf } from "@builder.io/qwik";
 import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
@@ -9,12 +9,11 @@ import { useDoubleClick } from "~/hooks/use-double-click";
 import type { SlideEntity } from "~/types/SlideEntity";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 
-interface SlideProps {
+type SlideProps = Omit<PropsOf<"div">, "align"> & {
   slide: SlideEntity;
-  onDoubleClick$?: QRL<(slide: SlideEntity) => void>;
-}
+};
 
-export const Slide = component$<PropsOf<"div"> & SlideProps>((props) => {
+export const Slide = component$<SlideProps>((props) => {
   useStyles$(transitions);
   useStyles$(css`
     .slide-content {
@@ -61,28 +60,30 @@ export const Slide = component$<PropsOf<"div"> & SlideProps>((props) => {
     }
   `);
 
+  const { slide, ...rest } = props;
+
   const slides = useContext(SlidesContextId);
 
   const handleDoubleClick$ = useDoubleClick(
     $(() => {
-      slides.state.active = props.slide;
+      slides.actions.display(slide);
     })
   );
 
   return (
-    <Carousel.Root>
+    <Carousel.Root {...rest}>
       <Carousel.Scroller class="scroller">
         <Carousel.Slide
           onClick$={handleDoubleClick$}
-          class={`slide-content ${slides.state.active == props.slide && "active"}`}
+          class="slide-content"
         >
-          <span>{props.slide.fileName}</span>
-          <Image layout="fixed" src={props.slide.preview} />
+          <span>{slide.fileName}</span>
+          <Image layout="fixed" src={slide.preview} />
         </Carousel.Slide>
         <Carousel.Slide class="slide-controls">
           <aside role="toolbar" aria-label="Slide controls">
             <Button
-              onClick$={() => slides.actions.remove(props.slide.id)}
+              onClick$={() => slides.actions.remove(slide.id)}
               class="red size-lg"
               tabIndex={-1}
               icon="delete"

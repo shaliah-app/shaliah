@@ -22,9 +22,9 @@
   &:hover {
     --hover-color: rgb(255, 255, 255, 0.1);
   }
+}
 
-  &.active {
-    --selected-percentage: 100%;
-    color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
-  }
+.slide-active .slide-content {
+  --selected-percentage: 100%;
+  color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
 }

@@ -88,7 +88,7 @@ export default component$(() => {
                 <Slide
                   key={s.id}
                   slide={s}
-                  class={{ active: s == slides.state.active }}
+                  class={{ "slide-active": s == slides.state.active }}
                 />
               ))}
               <menu role="toolbar">
