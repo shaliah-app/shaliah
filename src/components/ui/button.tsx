@@ -12,8 +12,7 @@ interface Variants {
 }
 
 const styles = css`
-  button,
-  label {
+  button {
     --min-size: calc(2.5rem + var(--size, 0rem));
     --background-color: var(--bkg-color);
 
@@ -126,22 +125,3 @@ export const Button = component$<PropsOf<"button"> & Variants>((props) => {
     </button>
   );
 });
-
-export const BooleanButton = component$<PropsOf<"label"> & Variants>(
-  (props) => {
-    useStylesScoped$(styles);
-    useStylesScoped$(css`
-      input {
-        display: none;
-      }
-    `);
-
-    return (
-      <label {...props}>
-        <Slot />
-        {props.icon && <Icon>{props.icon}</Icon>}
-        <input type="checkbox" />
-      </label>
-    );
-  },
-);
