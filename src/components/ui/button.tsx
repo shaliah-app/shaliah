@@ -37,24 +37,24 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
       cursor: pointer;
       font-weight: 700;
 
-      --shade-percentage: 0%;
+      --hover-color-percentage: 0%;
       background-color: color-mix(
         in srgb,
         var(--background-color),
-        var(--shade-color) var(--shade-percentage)
+        var(--hover-color) var(--hover-color-percentage)
       );
       transition: background-color 150ms ease-in-out;
 
       &:hover {
-        --shade-percentage: 10%;
+        --hover-color-percentage: 10%;
       }
 
       &:active {
-        --shade-percentage: 20%;
+        --hover-color-percentage: 20%;
       }
 
       &:disabled {
-        --shade-percentage: 50%;
+        --hover-color-percentage: 50%;
         cursor: default;
         pointer-events: none;
       }
@@ -65,19 +65,19 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
 
       &[data-color="primary"] {
         --background-color: var(--bkg-color);
-        --shade-color: white;
+        --hover-color: white;
         color: var(--primary-color);
       }
 
       &[data-color="secondary"] {
         --background-color: var(--secondary-color);
-        --shade-color: black;
+        --hover-color: black;
         color: var(--black-color);
       }
 
       &[data-color="red"] {
         --background-color: var(--red-color);
-        --shade-color: white;
+        --hover-color: white;
         color: var(--black-color);
       }
 
@@ -90,7 +90,7 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
       &[data-shape="wrapper"] {
         padding: 0;
         border-radius: 0;
-        --shade-color: black;
+        --hover-color: black;
         --bkg-color: transparent;
 
         > * {
