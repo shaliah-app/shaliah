@@ -14,116 +14,114 @@ interface ButtonProps {
   shape?: "rounded" | "wrapper";
 }
 
-const styles = css`
-  button {
-    --min-size: calc(2.5rem + var(--size));
+export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
+  useStylesScoped$(css`
+    button {
+      --min-size: calc(2.5rem + var(--size));
 
-    min-width: var(--min-size);
-    min-height: var(--min-size);
-    width: fit-content;
-    height: fit-content;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+      min-width: var(--min-size);
+      min-height: var(--min-size);
+      width: fit-content;
+      height: fit-content;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
 
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-
-    overflow: hidden;
-    cursor: pointer;
-    font-weight: 700;
-
-    --shade-percentage: 0%;
-    background-color: color-mix(
-      in srgb,
-      var(--background-color),
-      var(--shade-color) var(--shade-percentage)
-    );
-    transition: background-color 150ms ease-in-out;
-
-    &:hover {
-      --shade-percentage: 10%;
-    }
-
-    &:active {
-      --shade-percentage: 20%;
-    }
-
-    &:disabled {
-      --shade-percentage: 50%;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    /****************/
-    /*** Variants ***/
-    /****************/
-
-    &[data-color="primary"] {
-      --background-color: var(--bkg-color);
-      --shade-color: white;
-      color: var(--primary-color);
-    }
-
-    &[data-color="secondary"] {
-      --background-color: var(--secondary-color);
-      --shade-color: black;
-      color: var(--black-color);
-    }
-
-    &[data-color="red"] {
-      --background-color: var(--red-color);
-      --shade-color: white;
-      color: var(--black-color);
-    }
-
-    &[data-shape="rounded"] {
+      display: inline-flex;
       justify-content: center;
-      aspect-ratio: 1;
-      border-radius: 100%;
-    }
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
 
-    &[data-shape="wrapper"] {
-      padding: 0;
-      border-radius: 0;
-      --shade-color: black;
-      --bkg-color: transparent;
+      overflow: hidden;
+      cursor: pointer;
+      font-weight: 700;
 
-      > * {
+      --shade-percentage: 0%;
+      background-color: color-mix(
+        in srgb,
+        var(--background-color),
+        var(--shade-color) var(--shade-percentage)
+      );
+      transition: background-color 150ms ease-in-out;
+
+      &:hover {
+        --shade-percentage: 10%;
+      }
+
+      &:active {
+        --shade-percentage: 20%;
+      }
+
+      &:disabled {
+        --shade-percentage: 50%;
+        cursor: default;
         pointer-events: none;
-        z-index: -1;
+      }
+
+      /****************/
+      /*** Variants ***/
+      /****************/
+
+      &[data-color="primary"] {
+        --background-color: var(--bkg-color);
+        --shade-color: white;
+        color: var(--primary-color);
+      }
+
+      &[data-color="secondary"] {
+        --background-color: var(--secondary-color);
+        --shade-color: black;
+        color: var(--black-color);
+      }
+
+      &[data-color="red"] {
+        --background-color: var(--red-color);
+        --shade-color: white;
+        color: var(--black-color);
+      }
+
+      &[data-shape="rounded"] {
+        justify-content: center;
+        aspect-ratio: 1;
+        border-radius: 100%;
+      }
+
+      &[data-shape="wrapper"] {
+        padding: 0;
+        border-radius: 0;
+        --shade-color: black;
+        --bkg-color: transparent;
+
+        > * {
+          pointer-events: none;
+          z-index: -1;
+        }
+      }
+
+      &[data-size="none"] {
+        width: initial;
+        height: initial;
+      }
+
+      &[data-size="normal"] {
+        --size: 0rem;
+      }
+
+      &[data-size="lg"] {
+        --size: 1rem;
+      }
+
+      &[data-size="xl"] {
+        --size: 2rem;
+      }
+
+      &[data-size="full"] {
+        width: 100%;
+        height: 100%;
       }
     }
-
-    &[data-size="none"] {
-      width: initial;
-      height: initial;
-    }
-
-    &[data-size="normal"] {
-      --size: 0rem;
-    }
-
-    &[data-size="lg"] {
-      --size: 1rem;
-    }
-
-    &[data-size="xl"] {
-      --size: 2rem;
-    }
-
-    &[data-size="full"] {
-      width: 100%;
-      height: 100%;
-    }
-  }
-`;
-
-export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
-  useStylesScoped$(styles);
+  `);
 
   const { icon, size, color, shape, ...rest } = props;
 
