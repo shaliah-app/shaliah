@@ -7,14 +7,16 @@ import {
 import { Icon } from "./icon";
 import { css } from "~/utils/css";
 
-interface Variants {
+interface ButtonProps {
   icon?: string;
+  size?: "none" | "normal" | "lg" | "xl" | "full";
+  color?: "red" | "secondary" | "primary";
+  shape?: "rounded" | "wrapper";
 }
 
 const styles = css`
   button {
-    --min-size: calc(2.5rem + var(--size, 0rem));
-    --background-color: var(--bkg-color);
+    --min-size: calc(2.5rem + var(--size));
 
     min-width: var(--min-size);
     min-height: var(--min-size);
@@ -32,11 +34,8 @@ const styles = css`
 
     overflow: hidden;
     cursor: pointer;
-
     font-weight: 700;
-    color: var(--primary-color);
 
-    --shade-color: white;
     --shade-percentage: 0%;
     background-color: color-mix(
       in srgb,
@@ -62,22 +61,32 @@ const styles = css`
     /****************/
     /*** Variants ***/
     /****************/
-    /* TODO: Should be turned into props
-             for better documentation 
-    */
 
-    &.red {
-      --background-color: var(--red-color);
+    &[data-color="primary"] {
+      --background-color: var(--bkg-color);
+      --shade-color: white;
+      color: var(--primary-color);
+    }
+
+    &[data-color="secondary"] {
+      --background-color: var(--secondary-color);
+      --shade-color: black;
       color: var(--black-color);
     }
 
-    &.rounded {
+    &[data-color="red"] {
+      --background-color: var(--red-color);
+      --shade-color: white;
+      color: var(--black-color);
+    }
+
+    &[data-shape="rounded"] {
       justify-content: center;
       aspect-ratio: 1;
       border-radius: 100%;
     }
 
-    &.wrapper {
+    &[data-shape="wrapper"] {
       padding: 0;
       border-radius: 0;
       --shade-color: black;
@@ -89,39 +98,44 @@ const styles = css`
       }
     }
 
-    &.no-size {
+    &[data-size="none"] {
       width: initial;
       height: initial;
     }
 
-    &.size-lg {
+    &[data-size="normal"] {
+      --size: 0rem;
+    }
+
+    &[data-size="lg"] {
       --size: 1rem;
     }
 
-    &.size-xl {
+    &[data-size="xl"] {
       --size: 2rem;
     }
 
-    &.full-size {
+    &[data-size="full"] {
       width: 100%;
       height: 100%;
-    }
-
-    &.secondary {
-      --background-color: var(--secondary-color);
-      --shade-color: black;
-      color: var(--black-color);
     }
   }
 `;
 
-export const Button = component$<PropsOf<"button"> & Variants>((props) => {
+export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
   useStylesScoped$(styles);
 
+  const { icon, size, color, shape, ...rest } = props;
+
   return (
-    <button {...props}>
+    <button
+      data-size={size || "normal"}
+      data-color={color || "primary"}
+      data-shape={shape}
+      {...rest}
+    >
       <Slot />
-      {props.icon && <Icon>{props.icon}</Icon>}
+      {icon && <Icon>{icon}</Icon>}
     </button>
   );
 });

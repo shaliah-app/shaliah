@@ -93,14 +93,14 @@ export default component$(() => {
               ))}
               <menu role="toolbar">
                 <SlidePicker>
-                  <Button class="secondary" icon="add" />
+                  <Button color="secondary" icon="add" />
                 </SlidePicker>
               </menu>
             </ul>
           </>
         ) : (
           <SlidePicker>
-            <Button id="upload" class="full-size" icon="add">
+            <Button id="upload" size="full" icon="add">
               Add slides
             </Button>
           </SlidePicker>

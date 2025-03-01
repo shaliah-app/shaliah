@@ -84,7 +84,8 @@ export const Slide = component$<SlideProps>((props) => {
           <aside role="toolbar" aria-label="Slide controls">
             <Button
               onClick$={() => slides.actions.remove(slide.id)}
-              class="red size-lg"
+              color="red"
+              size="lg"
               tabIndex={-1}
               icon="delete"
               aria-label="Delete slide"
