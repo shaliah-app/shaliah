@@ -29,7 +29,8 @@ export default component$(() => {
         background-color: var(--bkg-color);
         overflow: auto;
 
-        display: grid;
+        display: flex;
+        flex-direction: column;
         color: color-mix(in srgb, var(--primary-color) 100%, black 10%);
 
         > :nth-child(even) .slide-content {
@@ -88,7 +89,7 @@ export default component$(() => {
                 <Slide
                   key={s.id}
                   slide={s}
-                  class={{ "slide-active": s == slides.state.active }}
+                  class={{ "slide-active": s.id == slides.state.active.id }}
                 />
               ))}
               <menu role="toolbar">

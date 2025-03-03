@@ -72,7 +72,7 @@ export const Slide = component$<SlideProps>((props) => {
 
   return (
     <Carousel.Root {...rest}>
-      <Carousel.Scroller class="scroller">
+      <Carousel.Scroller class="slide-scroller">
         <Carousel.Slide
           onClick$={handleDoubleClick$}
           class="slide-content"
