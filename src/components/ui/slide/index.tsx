@@ -78,7 +78,7 @@ export const Slide = component$<SlideProps>((props) => {
           class="slide-content"
         >
           <span>{slide.fileName}</span>
-          <Image layout="fixed" src={slide.preview} />
+          <Image layout="fixed" src={slide.preview} draggable={false} />
         </Carousel.Slide>
         <Carousel.Slide class="slide-controls">
           <aside role="toolbar" aria-label="Slide controls">
