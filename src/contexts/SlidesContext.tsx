@@ -19,7 +19,6 @@ interface SlidesStore {
   state: {
     active: SlideEntity;
     list: SlideEntity[];
-    nextSlideId: number;
   };
   actions: {
     display: QRL<(slide: SlideEntity) => void>;
@@ -42,7 +41,6 @@ export const SlidesContextProvider = component$(() => {
   const state = useStore<SlidesStore["state"]>({
     active: blankSlide,
     list: [],
-    nextSlideId: 0,
   });
 
   const _displayNearest = $((index: number) => {
@@ -56,8 +54,8 @@ export const SlidesContextProvider = component$(() => {
       const db = IndexedDatabaseService(table);
 
       const newSlides = await Promise.all(
-        files.map(async (file) => {
-          const id = state.nextSlideId++;
+        files.map(async (file, i) => {
+          const id = Date.now() + i;
           await db.save(String(id), file);
           return {
             id,
