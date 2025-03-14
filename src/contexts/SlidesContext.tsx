@@ -7,6 +7,7 @@ import {
   useContext,
   useContextProvider,
   useStore,
+  useTask$,
 } from "@builder.io/qwik";
 
 // import array from "~/utils/slides.json";
@@ -24,6 +25,7 @@ interface SlidesStore {
     display: QRL<(slide: SlideEntity) => void>;
     remove: QRL<(id: number) => Promise<void>>;
     add: QRL<(files: File[]) => Promise<void>>;
+    load: QRL<(files: File[]) => void>;
   };
 }
 
@@ -48,6 +50,8 @@ export const SlidesContextProvider = component$(() => {
       state.list[index + 1] || state.list[index - 1] || blankSlide;
   })
 
+  
+
   const actions = useStore<SlidesStore["actions"]>(() => ({
     add: $(async (files: File[]) => {
       const table = String(await presentation.getters.id());
@@ -67,6 +71,17 @@ export const SlidesContextProvider = component$(() => {
 
       state.list.push(...newSlides);
     }),
+    load: $((files: File[]) => {
+      const slides = files.map((file, i) => {
+        const id = Date.now() + i;
+        return {
+          id,
+          fileName: file.name,
+          preview: URL.createObjectURL(file),
+        };
+      })
+      state.list.push(...slides)
+    }),
     remove: $(async (id: number) => {
       const table = String(await presentation.getters.id());
       const db = IndexedDatabaseService(table);
@@ -84,7 +99,14 @@ export const SlidesContextProvider = component$(() => {
     }),
   }));
 
-  useLocalStorage("state", state);
+  useTask$(async ({ track }) => {
+    const p = track(() => presentation.state.id);
+    if (p == '0') return
+    const slideFiles = await IndexedDatabaseService<File>(p).index()
+    actions.load(slideFiles)
+  });
+
+  useLocalStorage("slides_store", state)
 
   useContextProvider(SlidesContextId, { state, actions });
   return <Slot />;

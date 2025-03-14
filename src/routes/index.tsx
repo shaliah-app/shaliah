@@ -6,6 +6,8 @@ import { Slide } from "~/components/ui/slide";
 import { Button } from "~/components/ui/button";
 import { SlidePicker } from "~/components/file-picker";
 import { SlidesContextId } from "~/contexts/SlidesContext";
+import { PresentationPreview } from "~/components/presentation-preview";
+import { PresentationContextId } from "~/contexts/PresentationContext";
 
 export default component$(() => {
   useStyles$(css`
@@ -75,11 +77,29 @@ export default component$(() => {
     }
   `);
 
+  const presentation = useContext(PresentationContextId);
+
   const slides = useContext(SlidesContextId);
 
   return (
     <main>
       <Monitor />
+
+      {presentation.state.id == "0" &&
+        presentation.stored.value.length && (
+          <aside style="color: black">
+            One presentation was found. Would you like to restore it?
+            {presentation.stored.value.map((p) => (
+              <Button
+                shape="wrapper"
+                key={p.id}
+                onClick$={() => (presentation.state.id = p.id)}
+              >
+                <PresentationPreview id={p.id} />
+              </Button>
+            ))}
+          </aside>
+        )}
 
       <div>
         {slides.state.list.length ? (

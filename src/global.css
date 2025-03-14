@@ -25,6 +25,7 @@
   text-size-adjust: 100%;
   line-height: 1;
   tab-size: 4;
+  user-select: none;
 
   font-optical-sizing: auto;
   font-weight: 400;

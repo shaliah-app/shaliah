@@ -1,50 +1,52 @@
-import type { QRL } from "@builder.io/qwik";
+import type { QRL, Signal } from "@builder.io/qwik";
 import {
   $,
   component$,
   createContextId,
   Slot,
   useContextProvider,
+  useOnWindow,
+  useSignal,
   useStore,
 } from "@builder.io/qwik";
+import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 
-interface PresentationStore {
+export interface PresentationStore {
   state: {
-    id: number;
+    id: string;
   };
   getters: {
-    id: QRL<() => number>;
+    id: QRL<() => string>;
   };
-  // actions: {
-  //   restoreSlides: QRL<() => Promise<void>>;
-  // };
+  stored: Signal<PresentationStore["state"][]>
 }
 
 export const PresentationContextId =
   createContextId<PresentationStore>("presentation");
 
 export const PresentationContextProvider = component$(() => {
-  // const slides = useContext(SlidesContextId);
-
   const state = useStore<PresentationStore["state"]>(() => ({
-    id: 0,
+    id: '0',
   }));
 
   const getters = useStore<PresentationStore["getters"]>(() => ({
-    id: $((): number => {
-      // if (!this._id) this._id = Date.now();
-      if (!state.id) state.id = 1; // should be a dymanic, different id
+    id: $((): string => {
+      if (state.id == '0') state.id = Date.now().toString();
       return state.id;
     }),
   }));
 
-  // const actions = useStore<PresentationStore["actions"]>(() => ({
-  //   restoreSlides: $(async () => {
-  //     const db = IndexedDatabaseService(String(getters.id()));
-  //     slides.actions.add(await db.index());
-  //   }),
-  // }));
+  const stored = useSignal<PresentationStore["state"][]>([])
 
-  useContextProvider(PresentationContextId, { state, getters });
+  useOnWindow(
+    "load",
+    $(async () => {
+      const presentations = await IndexedDatabaseService().getObjectStores();
+      stored.value = presentations.map((id) => ({ id }));
+      state.id = stored.value[0].id;
+    })
+  );
+
+  useContextProvider(PresentationContextId, { state, getters, stored });
   return <Slot />;
 });
