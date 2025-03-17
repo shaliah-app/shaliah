@@ -15,6 +15,8 @@ import { type SlideEntity } from "~/types/SlideEntity";
 import { PresentationContextId } from "./PresentationContext";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
+import type { SlideFile } from "~/types/SlideFile";
+import { usePrevious } from "~/hooks/usePrevious";
 
 interface SlidesStore {
   state: {
@@ -24,8 +26,7 @@ interface SlidesStore {
   actions: {
     display: QRL<(slide: SlideEntity) => void>;
     remove: QRL<(id: number) => Promise<void>>;
-    add: QRL<(files: File[]) => Promise<void>>;
-    load: QRL<(files: File[]) => void>;
+    load: QRL<(files: SlideFile[] | File[]) => void>;
   };
 }
 
@@ -40,50 +41,52 @@ export const SlidesContextProvider = component$(() => {
     preview: "",
   };
 
+  const _database = useStore(() => ({
+    save: $(async (files: SlideFile[]) => {
+      const table = await presentation.getters.id();
+      const db = IndexedDatabaseService(table);
+      for (let i = 0; i < files.length; i++) {
+        await db.save(files[i]);
+      }
+    }),
+  }));
+
+  const _displayNearest = $((index: number) => {
+    state.active = state.list[index + 1] || state.list[index - 1] || blankSlide;
+  });
+
+  const _filesToSlideFiles = $((files: File[]): SlideFile[] =>
+    files.map((file, i) => ({
+      id: Date.now() + i,
+      file,
+    }))
+  );
+
   const state = useStore<SlidesStore["state"]>({
     active: blankSlide,
     list: [],
   });
 
-  const _displayNearest = $((index: number) => {
-    state.active =
-      state.list[index + 1] || state.list[index - 1] || blankSlide;
-  })
-
-  
-
   const actions = useStore<SlidesStore["actions"]>(() => ({
-    add: $(async (files: File[]) => {
-      const table = String(await presentation.getters.id());
-      const db = IndexedDatabaseService(table);
+    load: $(async (files: SlideFile[] | File[]) => {
+      if (files.length === 0) return;
+      const slideFiles: SlideFile[] =
+        files[0] instanceof File
+          ? await _filesToSlideFiles(files as File[])
+          : (files as SlideFile[]);
 
-      const newSlides = await Promise.all(
-        files.map(async (file, i) => {
-          const id = Date.now() + i;
-          await db.save(String(id), file);
-          return {
-            id,
-            fileName: file.name,
-            preview: URL.createObjectURL(file),
-          };
-        })
-      );
+      const slides = slideFiles.map(({ id, file }) => ({
+        id,
+        fileName: file.name,
+        preview: URL.createObjectURL(file),
+      }));
 
-      state.list.push(...newSlides);
-    }),
-    load: $((files: File[]) => {
-      const slides = files.map((file, i) => {
-        const id = Date.now() + i;
-        return {
-          id,
-          fileName: file.name,
-          preview: URL.createObjectURL(file),
-        };
-      })
-      state.list.push(...slides)
+      state.list.push(...slides);
+
+      _database.save(slideFiles);
     }),
     remove: $(async (id: number) => {
-      const table = String(await presentation.getters.id());
+      const table = await presentation.getters.id();
       const db = IndexedDatabaseService(table);
       const index = state.list.findIndex((slide) => slide.id === id);
 
@@ -99,14 +102,16 @@ export const SlidesContextProvider = component$(() => {
     }),
   }));
 
+  const previous = usePrevious(presentation.state.id)
+
   useTask$(async ({ track }) => {
     const p = track(() => presentation.state.id);
-    if (p == '0') return
-    const slideFiles = await IndexedDatabaseService<File>(p).index()
-    actions.load(slideFiles)
+    if (p == "0" || previous.value == "0") return;
+    const slideFiles = await IndexedDatabaseService<SlideFile>(p).index();
+    actions.load(slideFiles);
   });
 
-  useLocalStorage("slides_store", state)
+  useLocalStorage("slides_store", state);
 
   useContextProvider(SlidesContextId, { state, actions });
   return <Slot />;

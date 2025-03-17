@@ -41,9 +41,12 @@ export const PresentationContextProvider = component$(() => {
   useOnWindow(
     "load",
     $(async () => {
-      const presentations = await IndexedDatabaseService().getObjectStores();
-      stored.value = presentations.map((id) => ({ id }));
-      state.id = stored.value[0].id;
+      const db = IndexedDatabaseService();
+      const presentations = await db.getObjectStores();
+      if (presentations.length) {
+        stored.value = presentations.map((id) => ({ id }));
+        state.id = stored.value[0].id;
+      } else db.version.update()
     })
   );
 

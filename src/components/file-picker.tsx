@@ -55,7 +55,7 @@ export const SlidePicker = component$(() => {
 
   return (
     <FilePicker
-      onFilesSelected$={(files) => slides.actions.add(files)}
+      onFilesSelected$={(files) => slides.actions.load(files)}
       multiple={true}
       accept="image/png,image/jpg,image/jpeg"
     >

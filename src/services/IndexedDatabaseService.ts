@@ -1,20 +1,29 @@
 import { LocalStorageService } from "./LocalStorageService";
 
 const DB_NAME = "shaliah_db";
-const version = LocalStorageService<number>(`${DB_NAME}_version`, 1);
+
+const databaseVersionManager = () => {
+  const _version = LocalStorageService<number>(`${DB_NAME}_version`, 1);
+
+  const get = () => _version.load();
+
+  const update = () => _version.save(get()! + 1);
+
+  return { get, update };
+};
 
 // I MIGHT CREATE A HIGHER LEVEL ABSTRACTION DATABASE ONLY FOR SLIDES
 
 export const IndexedDatabaseService = <T>(store?: string) => {
-  const _update = () => version.save(version.load()! + 1);
+  const version = databaseVersionManager()
 
   const open = () => {
     return new Promise<IDBDatabase>((resolve, reject) => {
-      const request = indexedDB.open(DB_NAME, version.load());
+      const request = indexedDB.open(DB_NAME, version.get());
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (store && !db.objectStoreNames.contains(store)) {
-          db.createObjectStore(store);
+          db.createObjectStore(store, { keyPath: 'id' });
         }
       };
       request.onsuccess = () => resolve(request.result);
@@ -22,7 +31,7 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     });
   };
 
-  const save = async (id: string, data: object) => {
+  const save = async (data: object) => {
     if (!store) {
       throw new Error("Store name is required for saving data.");
     }
@@ -30,8 +39,7 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     return new Promise<void>((resolve, reject) => {
       const transaction = db.transaction(store, "readwrite");
       const objectStore = transaction.objectStore(store);
-      const request = objectStore.put(data, id);
-      _update();
+      const request = objectStore.put(data);
       request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
@@ -46,7 +54,6 @@ export const IndexedDatabaseService = <T>(store?: string) => {
       const transaction = db.transaction(store, "readwrite");
       const objectStore = transaction.objectStore(store);
       const request = objectStore.delete(id);
-      _update();
       request.onsuccess = () => resolve();
       request.onerror = () => reject(request.error);
     });
@@ -89,5 +96,5 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     });
   };
 
-  return { save, remove, index, getObjectStores };
+  return { save, remove, index, getObjectStores, version };
 };
