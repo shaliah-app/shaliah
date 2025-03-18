@@ -18,7 +18,6 @@ export const useLocalStorage = <STATE extends object>(
   useOnWindow(
     "storage",
     $((e: StorageEvent) => {
-      console.log(`hey`)
       if (e.key == key) {
         event.value = true;
         const obj = JSON.parse(String(e.newValue));

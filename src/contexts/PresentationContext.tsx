@@ -46,7 +46,10 @@ export const PresentationContextProvider = component$(() => {
       if (presentations.length) {
         stored.value = presentations.map((id) => ({ id }));
         state.id = stored.value[0].id;
-      } else db.version.update()
+      } else {
+        await getters.id()
+        db.version.update()
+      }
     })
   );
 

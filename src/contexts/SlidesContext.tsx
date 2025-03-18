@@ -16,7 +16,6 @@ import { PresentationContextId } from "./PresentationContext";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import type { SlideFile } from "~/types/SlideFile";
-import { usePrevious } from "~/hooks/usePrevious";
 
 interface SlidesStore {
   state: {
@@ -102,11 +101,9 @@ export const SlidesContextProvider = component$(() => {
     }),
   }));
 
-  const previous = usePrevious(presentation.state.id)
-
   useTask$(async ({ track }) => {
     const p = track(() => presentation.state.id);
-    if (p == "0" || previous.value == "0") return;
+    if (p == "0") return;
     const slideFiles = await IndexedDatabaseService<SlideFile>(p).index();
     actions.load(slideFiles);
   });
