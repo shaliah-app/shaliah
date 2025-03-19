@@ -45,7 +45,7 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     });
   };
 
-  const remove = async (id: string): Promise<void> => {
+  const remove = async (id: number): Promise<void> => {
     if (!store) {
       throw new Error("Store name is required for removing data.");
     }

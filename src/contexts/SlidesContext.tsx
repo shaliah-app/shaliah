@@ -11,7 +11,7 @@ import {
 } from "@qwik.dev/core";
 
 // import array from "~/utils/slides.json";
-import { type SlideEntity } from "~/types/SlideEntity";
+import { blankSlide, type SlideEntity } from "~/types/SlideEntity";
 import { PresentationContextId } from "./PresentationContext";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
@@ -34,11 +34,10 @@ export const SlidesContextId = createContextId<SlidesStore>("slides");
 export const SlidesContextProvider = component$(() => {
   const presentation = useContext(PresentationContextId);
 
-  const blankSlide = {
-    id: -1,
-    fileName: "black.jpg",
-    preview: "",
-  };
+  const state = useStore<SlidesStore["state"]>({
+    active: blankSlide,
+    list: [],
+  });
 
   const _database = useStore(() => ({
     save: $(async (files: SlideFile[]) => {
@@ -48,6 +47,11 @@ export const SlidesContextProvider = component$(() => {
         await db.save(files[i]);
       }
     }),
+    delete: $(async (id: number) => {
+      const table = await presentation.getters.id();
+      const db = IndexedDatabaseService(table);
+      await db.remove(id)
+    })
   }));
 
   const _displayNearest = $((index: number) => {
@@ -60,11 +64,6 @@ export const SlidesContextProvider = component$(() => {
       file,
     }))
   );
-
-  const state = useStore<SlidesStore["state"]>({
-    active: blankSlide,
-    list: [],
-  });
 
   const actions = useStore<SlidesStore["actions"]>(() => ({
     load: $(async (files: SlideFile[] | File[]) => {
@@ -85,16 +84,15 @@ export const SlidesContextProvider = component$(() => {
       _database.save(slideFiles);
     }),
     remove: $(async (id: number) => {
-      const table = await presentation.getters.id();
-      const db = IndexedDatabaseService(table);
       const index = state.list.findIndex((slide) => slide.id === id);
 
       if (index === -1) throw new Error(`Slide with id ${id} not found`);
 
       if (state.active.id === id) _displayNearest(index);
+      
+      state.list.splice(index, 1);
 
-      state.list = state.list.filter((s) => s.id != id);
-      await db.remove(String(id));
+      await _database.delete(id);
     }),
     display: $((slide) => {
       state.active = slide;
