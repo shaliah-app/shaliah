@@ -38,20 +38,43 @@ export const PresentationContextProvider = component$(() => {
 
   const stored = useSignal<PresentationStore["state"][]>([])
 
+  // instantly breaking code:
   useOnWindow(
     "load",
     $(async () => {
-      const db = IndexedDatabaseService();
-      const presentations = await db.getObjectStores();
-      if (presentations.length) {
-        stored.value = presentations.map((id) => ({ id }));
-        state.id = stored.value[0].id;
-      } else {
-        await getters.id()
-        db.version.update()
-      }
+      const id = await getters.id()
+      console.log(id)
     })
   );
+
+  // intended code that breaks sometimes on fast reloading:
+  // useOnWindow(
+  //   "load",
+  //   $(async () => {
+  //     const db = IndexedDatabaseService(await getters.id());
+  //     const presentations = await db.getObjectStores();
+  //     if (presentations.length) {
+  //       stored.value = presentations.map((id) => ({ id }));
+  //       state.id = stored.value[0].id;
+  //     }
+  //   })
+  // );
+
+  // original, not breaking code:
+  // useOnWindow(
+  //   "load",
+  //   $(async () => {
+  //     const db = IndexedDatabaseService();
+  //     const presentations = await db.getObjectStores();
+  //     if (presentations.length) {
+  //       stored.value = presentations.map((id) => ({ id }));
+  //       state.id = stored.value[0].id;
+  //     } else {
+  //       await getters.id()
+  //       db.version.update()
+  //     }
+  //   })
+  // );
 
   useContextProvider(PresentationContextId, { state, getters, stored });
   return <Slot />;
