@@ -29,7 +29,7 @@ export default component$(() => {
         height: fit-content;
         border-radius: 2rem;
         background-color: var(--bkg-color);
-        overflow: auto;
+        overflow: hidden auto;
 
         display: flex;
         flex-direction: column;
@@ -109,7 +109,6 @@ export default component$(() => {
                 <Slide
                   key={s.id}
                   slide={s}
-                  class={{ "slide-active": s.id == slides.state.active.id }}
                 />
               ))}
               <menu role="toolbar">
