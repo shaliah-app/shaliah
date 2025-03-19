@@ -1,5 +1,10 @@
 import type { PropsOf } from "@qwik.dev/core";
-import { $, component$, useContext, useStyles$ } from "@qwik.dev/core";
+import {
+  $,
+  component$,
+  useContext,
+  useStyles$,
+} from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
@@ -8,6 +13,7 @@ import { useDoubleClick } from "~/hooks/use-double-click";
 import type { SlideEntity } from "~/types/SlideEntity";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 import { Carousel } from "../carousel";
+import { Icon } from "../icon";
 
 type SlideProps = Omit<PropsOf<"div">, "align"> & {
   slide: SlideEntity;
@@ -28,26 +34,39 @@ export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
       > span {
         width: 100%;
         height: 1.1rem;
-        margin-bottom: -0.1rem; /* magic margin needed to remove vertical overflow made by overflow-x property */
+        margin-bottom: -0.1rem;
         margin-inline: 1rem;
-
         font-weight: 500;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow-x: hidden;
-
         &:empty::before {
           content: "default-file.png";
         }
       }
 
-      & img {
+      & img,
+      & .video-wrapper {
         width: 25%;
         aspect-ratio: 1;
         object-position: center;
         object-fit: contain !important;
         flex-shrink: 0;
         overflow: hidden;
+        position: relative;
+      }
+
+      .video-wrapper {
+        border-radius: 1.25rem;
+
+        & video {
+          width: 100%;
+        }
+
+        > i {
+          color: var(--primary-color);
+          font-size: 2.5rem;
+        }
       }
     }
 
@@ -56,7 +75,6 @@ export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
       width: fit-content;
       padding: 1rem;
       flex-basis: content;
-      /* background-color: var(--primary-color); */
     }
   `);
 
@@ -77,7 +95,14 @@ export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
     >
       <section onClick$={handleDoubleClick$} class="slide-content">
         <span>{slide.fileName}</span>
-        <Image layout="fixed" src={slide.preview} draggable={false} />
+        {slide.type === "video" ? (
+          <div class="video-wrapper">
+            <video controls={false} src={slide.preview} />
+            <Icon class="center-absolute">play_circle</Icon>
+          </div>
+        ) : (
+          <Image layout="fixed" src={slide.preview} draggable={false} />
+        )}
       </section>
       <aside class="slide-controls" role="toolbar" aria-label="Slide controls">
         <Button

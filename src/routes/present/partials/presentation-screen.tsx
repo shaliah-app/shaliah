@@ -3,6 +3,7 @@ import {
   component$,
   useContext,
   useStylesScoped$,
+  useComputed$,
 } from "@qwik.dev/core";
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
@@ -19,10 +20,12 @@ export const PresentationScreen = component$<
       height: 100vh;
       overflow: hidden;
       background-color: black;
+      position: relative;
 
       --fit: contain;
 
-      > img {
+      > img,
+      > video {
         width: 100%;
         height: 100%;
         object-fit: var(--fit);
@@ -45,9 +48,20 @@ export const PresentationScreen = component$<
 
   const slides = useContext(SlidesContextId);
 
+  const slide = useComputed$(() => slides.state.active)
+  
+
   return (
     <figure {...props}>
-      {slides.state.active.preview && <Image src={slides.state.active.preview} />}
+      {slide.value.type === "video" ? (
+        <video
+          src={slide.value.preview}
+        />
+      ) : (
+        slide.value.preview && (
+          <Image src={slide.value.preview} />
+        )
+      )}
     </figure>
   );
 });

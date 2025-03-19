@@ -57,7 +57,7 @@ export const SlidePicker = component$(() => {
     <FilePicker
       onFilesSelected$={(files) => slides.actions.load(files)}
       multiple={true}
-      accept="image/png,image/jpg,image/jpeg"
+      accept="image/png,image/jpg,image/jpeg,video/mp4,video/webm,video/ogg"
     >
       <Slot />
     </FilePicker>

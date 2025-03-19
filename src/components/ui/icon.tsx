@@ -6,7 +6,7 @@ import {
 } from "@qwik.dev/core";
 import { css } from "~/utils/css";
 
-export const Icon = component$<PropsOf<"i">>(() => {
+export const Icon = component$<PropsOf<"i">>(({ class: classList, ...rest }) => {
   useStylesScoped$(css`
     i {
       pointer-events: none;
@@ -20,7 +20,7 @@ export const Icon = component$<PropsOf<"i">>(() => {
     }
   `);
   return (
-    <i class="material-symbols-outlined notranslate">
+    <i class={`material-symbols-outlined notranslate ${classList ?? ""}`} {...rest}>
       <Slot />
     </i>
   );

@@ -15,6 +15,8 @@ export const Monitor = component$(() => {
         width: 100%;
         height: 100%;
 
+        pointer-events: none;
+
         /* TODO: should be according monitor screen size, and not fixed like this */
         aspect-ratio: 16 / 10;
       }

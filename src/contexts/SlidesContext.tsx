@@ -62,6 +62,7 @@ export const SlidesContextProvider = component$(() => {
     files.map((file, i) => ({
       id: Date.now() + i,
       file,
+      type: file.type.startsWith('video') ? 'video' : 'image'
     }))
   );
 
@@ -73,10 +74,11 @@ export const SlidesContextProvider = component$(() => {
           ? await _filesToSlideFiles(files as File[])
           : (files as SlideFile[]);
 
-      const slides = slideFiles.map(({ id, file }) => ({
+      const slides = slideFiles.map(({ id, file, type }) => ({
         id,
         fileName: file.name,
         preview: URL.createObjectURL(file),
+        type
       }));
 
       state.list.push(...slides);
