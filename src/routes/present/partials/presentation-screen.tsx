@@ -3,7 +3,7 @@ import {
   component$,
   useContext,
   useStylesScoped$,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
 import { SlidesContextId } from "~/contexts/SlidesContext";

@@ -1,5 +1,5 @@
-import type { PropsOf } from "@builder.io/qwik";
-import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
+import type { PropsOf } from "@qwik.dev/core";
+import { $, component$, useContext, useStyles$ } from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";

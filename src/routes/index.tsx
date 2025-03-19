@@ -1,5 +1,5 @@
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { component$, useContext, useStyles$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@qwik.dev/router";
+import { component$, useContext, useStyles$ } from "@qwik.dev/core";
 import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
 import { Slide } from "~/components/ui/slide";

@@ -3,7 +3,7 @@ import {
   type PropsOf,
   Slot,
   useStylesScoped$,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 import { css } from "~/utils/css";
 
 export const Icon = component$<PropsOf<"i">>(() => {

@@ -1,4 +1,4 @@
-import type { QRL } from "@builder.io/qwik";
+import type { QRL } from "@qwik.dev/core";
 import {
   $,
   component$,
@@ -8,7 +8,7 @@ import {
   useContextProvider,
   useStore,
   useTask$,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 
 // import array from "~/utils/slides.json";
 import { type SlideEntity } from "~/types/SlideEntity";

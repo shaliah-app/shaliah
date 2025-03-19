@@ -28,21 +28,20 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "^1.9.0",
-    "@builder.io/qwik-city": "^1.9.0",
-    "@qwik-ui/headless": "^0.6.4",
+    "@qwik-ui/headless": "^0.1.17",
     "@types/eslint": "8.56.10",
     "@types/node": "20.14.11",
     "@typescript-eslint/eslint-plugin": "7.16.1",
     "@typescript-eslint/parser": "7.16.1",
     "@unpic/qwik": "^1.0.0",
     "eslint": "8.57.0",
-    "eslint-plugin-qwik": "^1.9.0",
+    "eslint-plugin-qwik": "2.0.0-alpha.8",
     "prettier": "3.3.3",
     "typescript": "5.4.5",
     "undici": "*",
-    "vite": "^5.4.11",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-tsconfig-paths": "^4.2.1",
+    "@qwik.dev/router": "2.0.0-alpha.8",
+    "@qwik.dev/core": "2.0.0-alpha.8"
   },
   "eslintConfig": {
     "root": true,
