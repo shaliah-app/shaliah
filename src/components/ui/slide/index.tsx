@@ -1,19 +1,19 @@
-import type { PropsOf } from "@builder.io/qwik";
-import { $, component$, useContext, useStyles$ } from "@builder.io/qwik";
+import type { PropsOf } from "@qwik.dev/core";
+import { $, component$, useContext, useStyles$ } from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import { Button } from "../button";
-import { Carousel } from "@qwik-ui/headless";
 import transitions from "./slides-transitions.css?inline";
 import { useDoubleClick } from "~/hooks/use-double-click";
 import type { SlideEntity } from "~/types/SlideEntity";
 import { SlidesContextId } from "~/contexts/SlidesContext";
+import { Carousel } from "../carousel";
 
 type SlideProps = Omit<PropsOf<"div">, "align"> & {
   slide: SlideEntity;
 };
 
-export const Slide = component$<SlideProps>((props) => {
+export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
   useStyles$(transitions);
   useStyles$(css`
     .slide-content {
@@ -60,8 +60,6 @@ export const Slide = component$<SlideProps>((props) => {
     }
   `);
 
-  const { slide, ...rest } = props;
-
   const slides = useContext(SlidesContextId);
 
   const handleDoubleClick$ = useDoubleClick(
@@ -71,28 +69,26 @@ export const Slide = component$<SlideProps>((props) => {
   );
 
   return (
-    <Carousel.Root {...rest}>
-      <Carousel.Scroller class="slide-scroller">
-        <Carousel.Slide
-          onClick$={handleDoubleClick$}
-          class="slide-content"
-        >
-          <span>{slide.fileName}</span>
-          <Image layout="fixed" src={slide.preview} draggable={false} />
-        </Carousel.Slide>
-        <Carousel.Slide class="slide-controls">
-          <aside role="toolbar" aria-label="Slide controls">
-            <Button
-              onClick$={() => slides.actions.remove(slide.id)}
-              color="red"
-              size="lg"
-              tabIndex={-1}
-              icon="delete"
-              aria-label="Delete slide"
-            />
-          </aside>
-        </Carousel.Slide>
-      </Carousel.Scroller>
-    </Carousel.Root>
+    <Carousel
+      flex-basis="fit-content"
+      options={{ disableRubberband: true }}
+      class={{ "slide-active": slide.id == slides.state.active.id }}
+      {...rest}
+    >
+      <section onClick$={handleDoubleClick$} class="slide-content">
+        <span>{slide.fileName}</span>
+        <Image layout="fixed" src={slide.preview} draggable={false} />
+      </section>
+      <aside class="slide-controls" role="toolbar" aria-label="Slide controls">
+        <Button
+          onClick$={() => slides.actions.remove(slide.id)}
+          color="red"
+          size="lg"
+          tabIndex={-1}
+          icon="delete"
+          aria-label="Delete slide"
+        />
+      </aside>
+    </Carousel>
   );
 });

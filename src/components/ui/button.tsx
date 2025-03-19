@@ -3,7 +3,7 @@ import {
   Slot,
   useStylesScoped$,
   type PropsOf,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 import { Icon } from "./icon";
 import { css } from "~/utils/css";
 

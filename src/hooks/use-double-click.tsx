@@ -1,5 +1,5 @@
-import type { QRL } from "@builder.io/qwik";
-import { $, useSignal } from "@builder.io/qwik";
+import type { QRL } from "@qwik.dev/core";
+import { $, useSignal } from "@qwik.dev/core";
 
 /**
  * Custom hook to handle both double-click and single-click events.

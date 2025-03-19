@@ -1,4 +1,4 @@
-import type { QRL, Signal } from "@builder.io/qwik";
+import type { QRL, Signal } from "@qwik.dev/core";
 import {
   $,
   component$,
@@ -8,7 +8,7 @@ import {
   useOnWindow,
   useSignal,
   useStore,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 
 export interface PresentationStore {

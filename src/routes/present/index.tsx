@@ -1,5 +1,5 @@
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@qwik.dev/router";
+import { component$ } from "@qwik.dev/core";
 import { PresentationScreen } from "./partials/presentation-screen";
 
 export default component$(() => {

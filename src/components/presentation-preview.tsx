@@ -1,11 +1,11 @@
-import type { NoSerialize, PropsOf } from "@builder.io/qwik";
+import type { NoSerialize, PropsOf } from "@qwik.dev/core";
 import {
   component$,
   noSerialize,
   Resource,
   useResource$,
   useStylesScoped$,
-} from "@builder.io/qwik";
+} from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 import { css } from "~/utils/css";

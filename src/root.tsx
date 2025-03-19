@@ -1,11 +1,11 @@
-import { component$ } from "@builder.io/qwik";
+import { component$ } from "@qwik.dev/core";
 import {
-  QwikCityProvider,
+  QwikRouterProvider,
   RouterOutlet,
   ServiceWorkerRegister,
-} from "@builder.io/qwik-city";
+} from "@qwik.dev/router";
 import { RouterHead } from "./components/router-head/router-head";
-import { isDev } from "@builder.io/qwik/build";
+import { isDev } from "@qwik.dev/core/build";
 import { SlidesContextProvider } from "./contexts/SlidesContext";
 import { PresentationContextProvider } from "./contexts/PresentationContext";
 
@@ -20,7 +20,7 @@ export default component$(() => {
    */
 
   return (
-    <QwikCityProvider>
+    <QwikRouterProvider>
       <head>
         <meta charset="utf-8" />
         {!isDev && (
@@ -54,6 +54,6 @@ export default component$(() => {
           </SlidesContextProvider>
         </PresentationContextProvider>
       </body>
-    </QwikCityProvider>
+    </QwikRouterProvider>
   );
 });

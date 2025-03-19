@@ -1,5 +1,5 @@
-import type { QRL } from "@builder.io/qwik";
-import { component$, useSignal, $, Slot, useContext } from "@builder.io/qwik";
+import type { QRL } from "@qwik.dev/core";
+import { component$, useSignal, $, Slot, useContext } from "@qwik.dev/core";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 
 interface FilePickerProps {
