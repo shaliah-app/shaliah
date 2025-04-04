@@ -1,4 +1,5 @@
 import { LocalStorageService } from "./LocalStorageService";
+import type { FileRecord } from "../types/FileRecord";
 
 const DB_NAME = "shaliah_db";
 
@@ -12,11 +13,7 @@ const databaseVersionManager = () => {
   return { get, update };
 };
 
-// I MIGHT CREATE A HIGHER LEVEL ABSTRACTION DATABASE ONLY FOR SLIDES
-
-export const IndexedDatabaseService = <T extends { id: number }>(
-  store?: string
-) => {
+export const IndexedDatabaseService = <T extends FileRecord = FileRecord>(store?: string) => {
   const version = databaseVersionManager();
 
   const open = () => {
@@ -64,7 +61,7 @@ export const IndexedDatabaseService = <T extends { id: number }>(
     });
   };
 
-  const remove = async (id: number): Promise<void> => {
+  const remove = async (id: T["id"]): Promise<void> => {
     if (!store) {
       throw new Error("Store name is required for removing data.");
     }
@@ -115,7 +112,7 @@ export const IndexedDatabaseService = <T extends { id: number }>(
     });
   };
 
-  const getById = async (id: number): Promise<T | undefined> => {
+  const getById = async (id: T["id"]): Promise<T | undefined> => {
     if (!store) {
       throw new Error("Store name is required for getting data by ID.");
     }

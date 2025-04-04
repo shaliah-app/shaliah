@@ -4,7 +4,7 @@ import { css } from "~/utils/css";
 import { Monitor } from "~/components/ui/monitor";
 import { Slide } from "~/components/ui/slide";
 import { Button } from "~/components/ui/button";
-import { SlidePicker } from "~/components/file-picker";
+import { SlidePicker } from "~/components/controllers";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 import { PresentationPreview } from "~/components/presentation-preview";
 import { PresentationContextId } from "~/contexts/PresentationContext";
@@ -79,7 +79,7 @@ export default component$(() => {
   `);
 
   const presentation = useContext(PresentationContextId);
-  
+
   const slides = useContext(SlidesContextId);
 
   return (

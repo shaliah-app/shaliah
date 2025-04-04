@@ -1,5 +1,5 @@
 export interface SlideEntity {
-  id: number;
+  id: string;
   fileName: string;
   preview: string;
   type: "video" | "image";
@@ -7,7 +7,7 @@ export interface SlideEntity {
 }
 
 export const blankSlide: SlideEntity = {
-  id: -1,
+  id: "null",
   fileName: "black.jpg",
   preview: "",
   type: "image",

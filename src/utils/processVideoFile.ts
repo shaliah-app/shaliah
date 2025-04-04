@@ -6,8 +6,8 @@ import type { VideoFileRecord } from "~/types/FileRecord";
  */
 export async function processVideoFile(
   file: File
-): Promise<Partial<VideoFileRecord>> {
-  return new Promise<Partial<VideoFileRecord>>((resolve, reject) => {
+): Promise<Partial<VideoFileRecord["meta"]>> {
+  return new Promise<Partial<VideoFileRecord["meta"]>>((resolve, reject) => {
     const video = document.createElement("video");
 
     video.preload = "auto";

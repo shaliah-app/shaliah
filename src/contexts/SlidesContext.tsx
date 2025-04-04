@@ -13,20 +13,19 @@ import {
 // import array from "~/utils/slides.json";
 import { blankSlide, type SlideEntity } from "~/types/SlideEntity";
 import { PresentationContextId } from "./PresentationContext";
-import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import type { FileRecord, MediaFileRecord } from "~/types/FileRecord";
-import { processVideoFile } from "~/utils/processVideoFile";
+import type { MediaFileRecord } from "~/types/FileRecord";
+import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 
-interface SlidesStore {
+export interface SlidesStore {
   state: {
     active: SlideEntity;
     list: SlideEntity[];
   };
   actions: {
     display: QRL<(slide: SlideEntity) => void>;
-    remove: QRL<(id: number) => Promise<void>>;
-    load: QRL<(files: MediaFileRecord[] | File[]) => void>;
+    remove: QRL<(id: MediaFileRecord['id']) => Promise<void>>;
+    load: QRL<(files: MediaFileRecord[]) => void>;
   };
 }
 
@@ -41,26 +40,26 @@ export const SlidesContextProvider = component$(() => {
   });
 
   const _database = useStore(() => ({
-    save: $(async (files: FileRecord[]) => {
+    save: $(async (files: MediaFileRecord[]) => {
       const table = await presentation.getters.id();
-      const db = IndexedDatabaseService(table);
+      const db = IndexedDatabaseService<MediaFileRecord>(table);
       for (let i = 0; i < files.length; i++) {
         await db.save(files[i]);
       }
     }),
-    update: $(async (file: FileRecord) => {
+    update: $(async (file: MediaFileRecord) => {
       const table = await presentation.getters.id();
-      const db = IndexedDatabaseService(table);
+      const db = IndexedDatabaseService<MediaFileRecord>(table);
       await db.update(file);
     }),
-    get: $(async (id: number) => {
+    get: $(async (id: MediaFileRecord['id']) => {
       const table = await presentation.getters.id();
-      const db = IndexedDatabaseService(table);
+      const db = IndexedDatabaseService<MediaFileRecord>(table);
       return await db.getById(id);
     }),
-    delete: $(async (id: number) => {
+    delete: $(async (id: MediaFileRecord['id']) => {
       const table = await presentation.getters.id();
-      const db = IndexedDatabaseService(table);
+      const db = IndexedDatabaseService<MediaFileRecord>(table);
       await db.remove(id);
     }),
   }));
@@ -69,48 +68,23 @@ export const SlidesContextProvider = component$(() => {
     state.active = state.list[index + 1] || state.list[index - 1] || blankSlide;
   });
 
-  const _castFilesToMediaFileRecords = $(
-    async (files: File[]): Promise<MediaFileRecord[]> => {
-      const records = await Promise.all(
-        files.map(async (file, i) => {
-          const baseRecord: MediaFileRecord = {
-            id: Date.now() + i,
-            file,
-            type: file.type.startsWith("video") ? "video" : "image",
-          };
-          if (baseRecord.type === "video") {
-            const processed = await processVideoFile(file);
-            Object.assign(baseRecord, processed);
-          }
-          return baseRecord;
-        })
-      );
-      return records;
-    }
-  );
-
   const actions = useStore<SlidesStore["actions"]>(() => ({
-    load: $(async (files: MediaFileRecord[] | File[]) => {
+    load: $(async (files: MediaFileRecord[]) => {
       if (files.length === 0) return;
-      const mediaFiles: MediaFileRecord[] =
-        files[0] instanceof File
-          ? await _castFilesToMediaFileRecords(files as File[])
-          : (files as MediaFileRecord[]);
-
       // TODO: it might be of MediaFileRecord type directly, not SlideEntity
-      const slides = mediaFiles.map((slide) => ({
+      const slides = files.map((slide) => ({
         id: slide.id,
         fileName: slide.file.name,
         preview: URL.createObjectURL(slide.file),
-        type: slide.type,
-        hasAudio: slide.type === "video" && slide.hasAudio,
+        type: slide.meta.type,
+        hasAudio: slide.meta.type === "video" && slide.meta.hasAudio,
       }));
 
       state.list.push(...slides);
 
-      _database.save(mediaFiles);
+      _database.save(files);
     }),
-    remove: $(async (id: number) => {
+    remove: $(async (id: MediaFileRecord['id']) => {
       const index = state.list.findIndex((slide) => slide.id === id);
 
       if (index === -1) throw new Error(`Slide with id ${id} not found`);

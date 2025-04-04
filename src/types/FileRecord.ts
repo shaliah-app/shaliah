@@ -1,34 +1,32 @@
+import type { IndexedDatabaseRecord } from "./IndexedDatabaseRecord";
+import type { ImageMetadata, MediaMetadata, VideoMetadata } from "./MediaMetadata";
+
 /**
  * Represents an IndexedDB record of a file.
  */
-export interface FileRecord {
-  /**
-   * The unique identifier of the file record.
-   */
-  id: number;
+export interface FileRecord extends IndexedDatabaseRecord {
   /**
    * The actual File object.
    */
   file: File;
+  /**
+   * Metadata of the file.
+   */
+  meta: MediaMetadata;
 }
 
 /**
  * Represents an IndexedDB record of an image file.
  */
 export interface ImageFileRecord extends FileRecord {
-  /**
-   * The type of the file, which is "image".
-   */
-  type: "image";
+  meta: ImageMetadata
 }
 
 /**
  * Represents an IndexedDB record of a video file.
  */
 export interface VideoFileRecord extends FileRecord {
-  type: "video";
-  /** Indicates whether the video file has audio. */
-  hasAudio?: boolean;
+  meta: VideoMetadata
 }
 
 /** Represents an IndexedDB media file record, which can be either an image or a video. */
