@@ -10,14 +10,16 @@ import { css } from "~/utils/css";
 interface ButtonProps {
   icon?: string;
   size?: "none" | "normal" | "lg" | "xl" | "full";
-  color?: "red" | "secondary" | "primary";
+  color?: "red" | "secondary" | "primary" | "transparent";
   shape?: "rounded" | "wrapper";
+  boolean?: boolean;
 }
 
 export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
   useStylesScoped$(css`
     button {
       --min-size: calc(2.5rem + var(--size));
+      --hover-color: white;
 
       min-width: var(--min-size);
       min-height: var(--min-size);
@@ -33,6 +35,7 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
       gap: 0.5rem;
       flex-shrink: 0;
 
+      position: relative;
       overflow: hidden;
       cursor: pointer;
       font-weight: 700;
@@ -40,10 +43,12 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
       --hover-color-percentage: 0%;
       background-color: color-mix(
         in srgb,
-        var(--background-color),
+        var(--button-background-color),
         var(--hover-color) var(--hover-color-percentage)
       );
-      transition: background-color 150ms ease-in-out;
+      transition:
+        background-color 150ms ease-in-out,
+        color 150ms ease-in-out;
 
       &:hover {
         --hover-color-percentage: 10%;
@@ -63,21 +68,36 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
       /*** Variants ***/
       /****************/
 
+      &[data-color="transparent"] {
+        background-color: transparent;
+        color: color-mix(
+          in srgb,
+          var(--bkg-color),
+          var(--hover-color) var(--hover-color-percentage)
+        );
+
+        transform: translate3d(0px, 0px, 0px);
+        transform-origin: center;
+        transition: color, transform 150ms ease-in-out;
+
+        &:hover {
+          transform: scale(1.04);
+        }
+      }
+
       &[data-color="primary"] {
-        --background-color: var(--bkg-color);
-        --hover-color: white;
+        --button-background-color: var(--bkg-color);
         color: var(--primary-color);
       }
 
       &[data-color="secondary"] {
-        --background-color: var(--secondary-color);
+        --button-background-color: var(--secondary-color);
         --hover-color: black;
         color: var(--black-color);
       }
 
       &[data-color="red"] {
-        --background-color: var(--red-color);
-        --hover-color: white;
+        --button-background-color: var(--red-color);
         color: var(--black-color);
       }
 
@@ -97,6 +117,20 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
           pointer-events: none;
           z-index: -1;
         }
+      }
+
+      &[data-boolean="true"] {
+          &::after {
+            content: "●";
+            position: absolute;
+            bottom: 0;
+            opacity: 0;
+            transition: opacity 150ms ease-in-out;
+          }
+
+          &.active::after {
+            opacity: 1;
+          }
       }
 
       &[data-size="none"] {
@@ -123,13 +157,14 @@ export const Button = component$<PropsOf<"button"> & ButtonProps>((props) => {
     }
   `);
 
-  const { icon, size, color, shape, ...rest } = props;
+  const { icon, size, color, shape, boolean, ...rest } = props;
 
   return (
     <button
       data-size={size || "normal"}
       data-color={color || "primary"}
       data-shape={shape}
+      data-boolean={boolean}
       {...rest}
     >
       <Slot />
