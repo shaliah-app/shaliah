@@ -8,6 +8,7 @@ import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@qwik.dev/core/build";
 import { SlidesContextProvider } from "./contexts/SlidesContext";
 import { PresentationContextProvider } from "./contexts/PresentationContext";
+import { VideoPlayerControlsContextProvider } from "./contexts/VideoPlayerControlsContext";
 
 import "./global.css";
 
@@ -49,8 +50,10 @@ export default component$(() => {
       <body lang="pt-br">
         <PresentationContextProvider>
           <SlidesContextProvider>
-            <RouterOutlet />
-            {!isDev && <ServiceWorkerRegister />}
+            <VideoPlayerControlsContextProvider>
+              <RouterOutlet />
+              {!isDev && <ServiceWorkerRegister />}
+            </VideoPlayerControlsContextProvider>
           </SlidesContextProvider>
         </PresentationContextProvider>
       </body>

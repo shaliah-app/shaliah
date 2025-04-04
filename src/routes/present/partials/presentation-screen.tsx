@@ -8,6 +8,7 @@ import {
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
 import { SlidesContextId } from "~/contexts/SlidesContext";
+import { VideoPlayer } from "~/components/ui/video-player";
 
 export const PresentationScreen = component$<
   PropsOf<"figure"> & {
@@ -48,19 +49,14 @@ export const PresentationScreen = component$<
 
   const slides = useContext(SlidesContextId);
 
-  const slide = useComputed$(() => slides.state.active)
-  
+  const slide = useComputed$(() => slides.state.active);
 
   return (
     <figure {...props}>
       {slide.value.type === "video" ? (
-        <video
-          src={slide.value.preview}
-        />
+        <VideoPlayer src={slide.value.preview} />
       ) : (
-        slide.value.preview && (
-          <Image src={slide.value.preview} />
-        )
+        slide.value.preview && <Image src={slide.value.preview} />
       )}
     </figure>
   );
