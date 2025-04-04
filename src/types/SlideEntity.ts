@@ -3,6 +3,7 @@ export interface SlideEntity {
   fileName: string;
   preview: string;
   type: "video" | "image";
+  hasAudio?: boolean;
 }
 
 export const blankSlide: SlideEntity = {

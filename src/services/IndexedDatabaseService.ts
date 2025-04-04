@@ -14,8 +14,10 @@ const databaseVersionManager = () => {
 
 // I MIGHT CREATE A HIGHER LEVEL ABSTRACTION DATABASE ONLY FOR SLIDES
 
-export const IndexedDatabaseService = <T>(store?: string) => {
-  const version = databaseVersionManager()
+export const IndexedDatabaseService = <T extends { id: number }>(
+  store?: string
+) => {
+  const version = databaseVersionManager();
 
   const open = () => {
     return new Promise<IDBDatabase>((resolve, reject) => {
@@ -23,7 +25,7 @@ export const IndexedDatabaseService = <T>(store?: string) => {
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (store && !db.objectStoreNames.contains(store)) {
-          db.createObjectStore(store, { keyPath: 'id' });
+          db.createObjectStore(store, { keyPath: "id" });
         }
       };
       request.onsuccess = () => resolve(request.result);
@@ -31,9 +33,26 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     });
   };
 
-  const save = async (data: object) => {
+  const save = async (data: T) => {
     if (!store) {
       throw new Error("Store name is required for saving data.");
+    }
+    const db = await open();
+    return new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(store, "readwrite");
+      const objectStore = transaction.objectStore(store);
+      const request = objectStore.put(data);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  };
+
+  const update = async (data: T) => {
+    if (!store) {
+      throw new Error("Store name is required for updating data.");
+    }
+    if (!data.id) {
+      throw new Error("Data must have an 'id' property for updating.");
     }
     const db = await open();
     return new Promise<void>((resolve, reject) => {
@@ -96,5 +115,21 @@ export const IndexedDatabaseService = <T>(store?: string) => {
     });
   };
 
-  return { save, remove, index, getObjectStores, version };
+  const getById = async (id: number): Promise<T | undefined> => {
+    if (!store) {
+      throw new Error("Store name is required for getting data by ID.");
+    }
+    const db = await open();
+    return new Promise<T | undefined>((resolve, reject) => {
+      const transaction = db.transaction(store, "readonly");
+      const objectStore = transaction.objectStore(store);
+      const request = objectStore.get(id);
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  };
+
+  return { save, update, remove, index, getObjectStores, version, getById };
 };
