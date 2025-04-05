@@ -4,7 +4,7 @@ import type {
   MediaFileRecord,
   VideoFileRecord,
 } from "~/types/FileRecord";
-import { processVideoFile } from "~/utils/processVideoFile";
+import { processVideoFile } from ".";
 import { BlobURL } from "~/client/classes/BlobURL";
 
 export const castToMediaFileRecord = async (
