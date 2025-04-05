@@ -13,7 +13,7 @@ import {
 // import array from "~/utils/slides.json";
 import { blankSlide, type SlideEntity } from "~/types/SlideEntity";
 import { PresentationContextId } from "./PresentationContext";
-import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { useLocalStorage } from "~/hooks";
 import type { MediaFileRecord } from "~/types/FileRecord";
 import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
 

@@ -7,7 +7,7 @@ import {
   createContextId,
   useStore,
 } from "@qwik.dev/core";
-import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { useLocalStorage } from "~/hooks";
 
 export interface VideoPlayerControlsStore {
   playing: boolean;

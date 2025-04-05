@@ -8,7 +8,7 @@ import {
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import transitions from "./slides-transitions.css?inline";
-import { useDoubleClick } from "~/hooks/useDoubleClick";
+import { useDoubleClick } from "~/hooks";
 import type { SlideEntity } from "~/types/SlideEntity";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 import { Button, Carousel, Icon } from "~/components/ui";
