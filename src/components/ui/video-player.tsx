@@ -21,15 +21,21 @@ export const VideoPlayer = component$<PropsOf<"video">>(
       $(async () => await controls.refresh())
     );
 
+    useEventListener(
+      element,
+      "ended",
+      $(async () => await controls.togglePlay())
+    )
+
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(({ track }) => {
+    useVisibleTask$(async ({ track }) => {
       const state = track(controls);
       const video = element.value;
       if (!video) return;
 
       if (!state.playing) video.pause();
       else {
-        video.play().catch((error) => {
+        await video.play().catch((error) => {
           console.error("Error attempting to play video:", error);
         });
       }
