@@ -1,4 +1,4 @@
-import { waitForValue } from "./waitForValue";
+import { waitForValue } from "../../utils/waitForValue";
 
 /**
  * Checks if a video element has audio.

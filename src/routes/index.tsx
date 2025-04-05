@@ -1,14 +1,16 @@
 import type { DocumentHead } from "@qwik.dev/router";
 import { component$, useContext, useStyles$ } from "@qwik.dev/core";
 import { css } from "~/utils/css";
-import { Monitor } from "~/components/ui/monitor";
-import { Slide } from "~/components/ui/slide";
-import { Button } from "~/components/ui/button";
-import { SlidePicker } from "~/components/controllers";
-import { SlidesContextId } from "~/contexts/SlidesContext";
-import { PresentationPreview } from "~/components/presentation-preview";
 import { PresentationContextId } from "~/contexts/PresentationContext";
-import { VideoControls } from "~/components/video-controls";
+import { SlidesContextId } from "~/contexts/SlidesContext";
+import { SlidePicker } from "~/components/controllers";
+import {
+  Button,
+  Slide,
+  Monitor,
+  VideoControls,
+  PresentationPreview,
+} from "~/components/ui";
 
 export default component$(() => {
   useStyles$(css`

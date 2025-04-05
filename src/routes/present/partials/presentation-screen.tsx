@@ -8,7 +8,7 @@ import {
 import { css } from "~/utils/css";
 import { Image } from "@unpic/qwik";
 import { SlidesContextId } from "~/contexts/SlidesContext";
-import { VideoPlayer } from "~/components/ui/video-player";
+import { VideoPlayer } from "~/components/ui";
 
 export const PresentationScreen = component$<
   PropsOf<"figure"> & {

@@ -1,7 +1,7 @@
 import type { MediaFileRecord } from "~/types/FileRecord";
 import type { PropsOf, QRL } from "@qwik.dev/core";
 import { component$, useSignal, $, Slot } from "@qwik.dev/core";
-import { castToMediaFileRecord } from "~/client/utils/castToMediaFileRecord";
+import { castToMediaFileRecord } from "~/client/utils";
 
 interface MediaFilePickerProps extends PropsOf<"input"> {
   onFilesSelected$: QRL<(files: MediaFileRecord[]) => void>;

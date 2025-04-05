@@ -7,7 +7,7 @@ import {
   type PropsOf,
 } from "@qwik.dev/core";
 import { VideoPlayerControlsContextId } from "~/contexts/VideoPlayerControlsContext";
-import { useEventListener } from "~/hooks/useEventListener";
+import { useEventListener } from "~/hooks";
 
 export const VideoPlayer = component$<PropsOf<"video">>(
   (props) => {

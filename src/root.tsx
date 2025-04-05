@@ -4,7 +4,7 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@qwik.dev/router";
-import { RouterHead } from "./components/router-head/router-head";
+import { RouterHead } from "./components/controllers";
 import { isDev } from "@qwik.dev/core/build";
 import { SlidesContextProvider } from "./contexts/SlidesContext";
 import { PresentationContextProvider } from "./contexts/PresentationContext";
