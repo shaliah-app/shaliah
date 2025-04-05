@@ -1,2 +1,3 @@
-export { MediaFilePicker } from "./MediaFilePicker/MediaFilePicker";
-export { SlidePicker } from "./MediaFilePicker/SlidePicker";
+export * from "./MediaFilePicker/MediaFilePicker";
+export * from "./MediaFilePicker/SlidePicker";
+export * from "./RouterHead/RouterHead";

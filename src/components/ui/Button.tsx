@@ -4,7 +4,7 @@ import {
   useStylesScoped$,
   type PropsOf,
 } from "@qwik.dev/core";
-import { Icon } from "./icon";
+import { Icon } from "./Icon";
 import { css } from "~/utils/css";
 
 interface ButtonProps {

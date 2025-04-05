@@ -7,13 +7,11 @@ import {
 } from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
-import { Button } from "../button";
 import transitions from "./slides-transitions.css?inline";
-import { useDoubleClick } from "~/hooks/use-double-click";
+import { useDoubleClick } from "~/hooks/useDoubleClick";
 import type { SlideEntity } from "~/types/SlideEntity";
 import { SlidesContextId } from "~/contexts/SlidesContext";
-import { Carousel } from "../carousel";
-import { Icon } from "../icon";
+import { Button, Carousel, Icon } from "~/components/ui";
 
 type SlideProps = Omit<PropsOf<"div">, "align"> & {
   slide: SlideEntity;

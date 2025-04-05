@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { Button } from "./ui/button";
+import { Button } from ".";
 import { useContext, useStylesScoped$ } from "@qwik.dev/core";
 import { css } from "~/utils/css";
 import { VideoPlayerControlsContextId } from "~/contexts/VideoPlayerControlsContext";
