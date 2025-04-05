@@ -9,7 +9,7 @@ import {
   useSignal,
   useStore,
 } from "@qwik.dev/core";
-import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
+import { IndexedDatabaseService } from "~/client/services";
 
 export interface PresentationStore {
   state: {

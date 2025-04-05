@@ -1,6 +1,6 @@
 import { $, useOnWindow, useSignal, useTask$ } from "@qwik.dev/core";
 import { isBrowser } from "@qwik.dev/core/build";
-import { StateStorageService } from "~/services/StateStorageService";
+import { StateStorageService } from "~/client/services/StateStorageService";
 
 export const useLocalStorage = <STATE extends object>(
   key: string,

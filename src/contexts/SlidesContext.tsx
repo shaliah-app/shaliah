@@ -15,7 +15,7 @@ import { blankSlide, type SlideEntity } from "~/types/SlideEntity";
 import { PresentationContextId } from "./PresentationContext";
 import { useLocalStorage } from "~/hooks";
 import type { MediaFileRecord } from "~/types/FileRecord";
-import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
+import { IndexedDatabaseService } from "~/client/services";
 
 export interface SlidesStore {
   state: {

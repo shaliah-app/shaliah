@@ -9,7 +9,7 @@ import {
   useStylesScoped$,
 } from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
-import { IndexedDatabaseService } from "~/services/IndexedDatabaseService";
+import { IndexedDatabaseService } from "~/client/services";
 import { css } from "~/utils/css";
 
 interface PresentationPreviewProps {
