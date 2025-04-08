@@ -39,8 +39,10 @@
     "eslint": "8.57.0",
     "eslint-plugin-qwik": "2.0.0-alpha.8",
     "prettier": "3.3.3",
+    "redis": "^4.7.0",
     "typescript": "5.4.5",
     "undici": "*",
+    "uuid": "^11.1.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "eslintConfig": {
