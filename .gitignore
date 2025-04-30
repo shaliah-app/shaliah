@@ -41,5 +41,6 @@ lerna-debug.log*
 .yarn/*
 !.yarn/releases
 
-# Demonstration folder - should be deleted
-/demo
+# Cypress
+cypress/screenshots
+cypress/videos
