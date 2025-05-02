@@ -9,6 +9,8 @@ import { isDev } from "@qwik.dev/core/build";
 import { SlidesContextProvider } from "./contexts/SlidesContext";
 import { PresentationContextProvider } from "./contexts/PresentationContext";
 import { VideoPlayerControlsContextProvider } from "./contexts/VideoPlayerControlsContext";
+import dotenv from "dotenv";
+dotenv.config();
 
 import "./global.css";
 
