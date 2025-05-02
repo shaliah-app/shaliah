@@ -1,5 +1,5 @@
 import { checkVideoHasAudio } from ".";
-import type { VideoFileRecord } from "~/types/FileRecord";
+import type { VideoFileRecord } from "~/types/Records";
 /**
  * Processes a video file by creating a temporary video element,
  * waiting for metadata to load, then checking if it has audio.

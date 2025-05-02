@@ -3,7 +3,7 @@ import type {
   ImageFileRecord,
   MediaFileRecord,
   VideoFileRecord,
-} from "~/types/FileRecord";
+} from "~/types/Records";
 import { processVideoFile } from ".";
 import { BlobURL } from "~/client/classes/BlobURL";
 

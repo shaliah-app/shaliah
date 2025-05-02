@@ -1,4 +1,4 @@
-import type { MediaFileRecord } from "~/types/FileRecord";
+import type { MediaFileRecord } from "~/types/Records";
 import type { PropsOf, QRL } from "@qwik.dev/core";
 import { component$, useSignal, $, Slot } from "@qwik.dev/core";
 import { castToMediaFileRecord } from "~/client/utils";

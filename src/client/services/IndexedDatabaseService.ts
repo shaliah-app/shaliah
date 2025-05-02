@@ -1,5 +1,5 @@
 import { LocalStorageService } from "./LocalStorageService";
-import type { FileRecord } from "../../types/FileRecord";
+import type { FileRecord } from "../../types/Records";
 
 const DB_NAME = "shaliah_db";
 
