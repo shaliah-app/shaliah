@@ -9,6 +9,9 @@ import { isDev } from "@qwik.dev/core/build";
 import { SlidesContextProvider } from "./contexts/SlidesContext";
 import { PresentationContextProvider } from "./contexts/PresentationContext";
 import { VideoPlayerControlsContextProvider } from "./contexts/VideoPlayerControlsContext";
+import { SharedStateQueueContextProvider } from "./contexts/SharedStateQueueContext";
+import dotenv from "dotenv";
+dotenv.config();
 
 import "./global.css";
 
@@ -48,14 +51,16 @@ export default component$(() => {
         />
       </head>
       <body lang="pt-br">
-        <PresentationContextProvider>
-          <SlidesContextProvider>
-            <VideoPlayerControlsContextProvider>
-              <RouterOutlet />
-              {!isDev && <ServiceWorkerRegister />}
-            </VideoPlayerControlsContextProvider>
-          </SlidesContextProvider>
-        </PresentationContextProvider>
+        <SharedStateQueueContextProvider>
+          <PresentationContextProvider>
+            <SlidesContextProvider>
+              <VideoPlayerControlsContextProvider>
+                <RouterOutlet />
+                {!isDev && <ServiceWorkerRegister />}
+              </VideoPlayerControlsContextProvider>
+            </SlidesContextProvider>
+          </PresentationContextProvider>
+        </SharedStateQueueContextProvider>
       </body>
     </QwikRouterProvider>
   );
