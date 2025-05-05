@@ -1,18 +1,30 @@
 import { $, useOnWindow, useSignal, useTask$ } from "@qwik.dev/core";
 import { isBrowser } from "@qwik.dev/core/build";
-import { StateStorageService } from "~/client/services/StateStorageService";
+import { LocalStorageService } from "~/services/LocalStorageService";
+import { NullPointerError } from "~/types/Errors";
 
 export const useLocalStorage = <STATE extends object>(
   key: string,
   state: STATE
 ) => {
-  const { set, cast } = StateStorageService<STATE>(key);
+  const { save } = LocalStorageService<STATE>(key);
+
+  const cast = $((value: string | null): STATE => {
+    if (value === null)
+      throw new NullPointerError(
+        `No value found in localStorage for key "${key}"`
+      );
+    const parsed = JSON.parse(value);
+    if (typeof parsed === "object" && parsed !== null)
+      return parsed as STATE;
+    throw new SyntaxError(`Parsed value for key "${key}" is not an object`);
+  })
 
   const updateSource = useSignal<"local" | "external">("local");
 
   useTask$(async ({ track }) => {
-    const newValue = track(state);
-    if (isBrowser && updateSource.value === "local") await set(newValue);
+    const newValue = track(() => state);
+    if (isBrowser && updateSource.value === "local") await save(newValue);
     updateSource.value = "local";
   });
 

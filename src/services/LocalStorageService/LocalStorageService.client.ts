@@ -1,7 +1,8 @@
+import { $ } from "@qwik.dev/core";
 
 /**
  * Intended to be used on client-side only code.
- * 
+ *
  * Service for interacting with the browser's local storage.
  * It provides methods to save, load, and remove data associated with a specific key.
  *
@@ -9,20 +10,19 @@
  * @returns An object containing the `save`, `load`, and `remove` methods.
  */
 export const LocalStorageService = <T>(key: string, initialValue?: T) => {
-  const save = (data: T): void => {
+  const save = $((data: T): void => {
     localStorage.setItem(key, JSON.stringify(data));
-  };
+  });
 
-  const load = () => {
+  const load = $(() => {
     const data = localStorage.getItem(key);
-    if (data) return (JSON.parse(data) as T);
-
+    if (data) return JSON.parse(data) as T;
     return initialValue;
-  };
+  });
 
-  const remove = (): void => {
+  const remove = $((): void => {
     localStorage.removeItem(key);
-  };
+  });
 
   return { save, load, remove };
 };
