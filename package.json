@@ -142,6 +142,8 @@
     "server"
   ],
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.70",
+    "blurhash": "^2.0.5",
     "dotenv": "^16.5.0",
     "jsondiffpatch": "^0.7.3"
   }
