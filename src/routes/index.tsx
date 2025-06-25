@@ -4,13 +4,7 @@ import { css } from "~/utils/css";
 import { PresentationContextId } from "~/contexts/PresentationContext";
 import { SlidesContextId } from "~/contexts/SlidesContext";
 import { SlidePicker } from "~/components/controllers";
-import {
-  Button,
-  Slide,
-  Monitor,
-  VideoControls,
-  PresentationPreview,
-} from "~/components/ui";
+import { Button, Slide } from "~/components/ui";
 
 export default component$(() => {
   useStyles$(css`
@@ -86,7 +80,14 @@ export default component$(() => {
 
   return (
     <main>
-      <Monitor />
+      <div
+        onClick$={() => console.log(presentation.state)}
+        style={"height: 200px"}
+      >
+        {/* it is causing to trigger updates twice on page load */}
+        {/* should be fixed with roles identification between tabs */}
+        {/* <Monitor />  */}
+      </div>
 
       {presentation.state.id == "0" && presentation.stored.value.length && (
         <aside style="color: black">
@@ -97,29 +98,37 @@ export default component$(() => {
               key={p.id}
               onClick$={() => (presentation.state.id = p.id)}
             >
-              <PresentationPreview id={p.id} />
+              hey I should be a presentation preview c=
             </Button>
           ))}
         </aside>
       )}
 
-      {slides.state.active.type === "video" && <VideoControls />}
+      {/* {slides.state.active.type === "video" && <VideoControls />} */}
       <div>
-        {slides.state.list.length ? (
+        {slides.length ? (
           <>
             <ul>
-              {slides.state.list.map((s) => (
-                <Slide key={s.id} slide={s} />
+              {slides.map((s, i) => (
+                <Slide
+                  key={s.id}
+                  slide={s}
+                  onRemove$={() => slides.splice(i, 1)}
+                ></Slide>
               ))}
               <menu role="toolbar">
-                <SlidePicker>
+                <SlidePicker
+                  onSlidesSelected$={(selected) => slides.push(...selected)}
+                >
                   <Button color="secondary" icon="add" />
                 </SlidePicker>
               </menu>
             </ul>
           </>
         ) : (
-          <SlidePicker>
+          <SlidePicker
+            onSlidesSelected$={(selected) => slides.push(...selected)}
+          >
             <Button id="upload" size="full" icon="add">
               Add slides
             </Button>

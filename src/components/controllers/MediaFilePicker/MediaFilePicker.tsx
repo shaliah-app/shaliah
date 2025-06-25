@@ -1,10 +1,9 @@
-import type { MediaFileRecord } from "~/types/Records";
+import type { FileRecord } from "~/types/Records";
 import type { PropsOf, QRL } from "@qwik.dev/core";
 import { component$, useSignal, $, Slot } from "@qwik.dev/core";
-import { castToMediaFileRecord } from "~/client/utils";
 
-interface MediaFilePickerProps extends PropsOf<"input"> {
-  onFilesSelected$: QRL<(files: MediaFileRecord[]) => void>;
+export interface MediaFilePickerProps extends PropsOf<"input"> {
+  onFilesSelected$: QRL<(files: FileRecord[]) => void>;
   children?: any;
 }
 
@@ -24,12 +23,13 @@ export const MediaFilePicker = component$<MediaFilePickerProps>(
 
       if (files.length === 0) return;
 
-      const mediaFiles = await Promise.all(
-        files.map(async (f) => await castToMediaFileRecord(f))
-      );
+      const records = files.map((file, i) => ({
+        id: Date.now().toString() + i,
+        file,
+      }));
 
       try {
-        onFilesSelected$(mediaFiles);
+        onFilesSelected$(records);
       } finally {
         // Reset the input value after handling files
         if (fileInputRef.value) {

@@ -1,28 +1,26 @@
-import type { PropsOf } from "@qwik.dev/core";
-import {
-  $,
-  component$,
-  useContext,
-  useStyles$,
-} from "@qwik.dev/core";
+import type { PropsOf, QRL } from "@qwik.dev/core";
+import { component$, useStyles$ } from "@qwik.dev/core";
 import { Image } from "@unpic/qwik";
 import { css } from "~/utils/css";
 import transitions from "./slides-transitions.css?inline";
-import { useDoubleClick } from "~/hooks";
-import type { SlideEntity } from "~/types/SlideEntity";
-import { SlidesContextId } from "~/contexts/SlidesContext";
-import { Button, Carousel, Icon } from "~/components/ui";
+import { Button, Carousel } from "~/components/ui";
+import type { SlideModel } from "~/types/SlideModel";
+import { useBlurhashPlaceholder } from "~/hooks/useBlurhashPlaceholder";
 
 type SlideProps = Omit<PropsOf<"div">, "align"> & {
-  slide: SlideEntity;
+  slide: SlideModel;
+  onRemove$: QRL<() => void>;
 };
 
-export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
+export const Slide = component$<SlideProps>(({ onRemove$, slide, ...rest }) => {
   useStyles$(transitions);
   useStyles$(css`
+    .slide-root {
+      flex-shrink: 0;
+    }
+
     .slide-content {
       max-width: 100%;
-      flex-grow: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -76,35 +74,29 @@ export const Slide = component$<SlideProps>(({ slide, ...rest }) => {
     }
   `);
 
-  const slides = useContext(SlidesContextId);
+  const { name, meta } = slide;
 
-  const handleDoubleClick$ = useDoubleClick(
-    $(() => {
-      slides.actions.display(slide);
-    })
-  );
+  const placeholder = useBlurhashPlaceholder(meta.blurHash);
 
   return (
     <Carousel
+      class="slide-root"
       flex-basis="fit-content"
       options={{ disableRubberband: true }}
-      class={{ "slide-active": slide.id == slides.state.active.id }}
       {...rest}
     >
-      <section onClick$={handleDoubleClick$} class="slide-content">
-        <span>{slide.fileName}</span>
-        {slide.type === "video" ? (
-          <div class="video-wrapper">
-            <video controls={false} src={slide.preview} />
-            <Icon class="center-absolute">play_circle</Icon>
-          </div>
-        ) : (
-          <Image layout="fixed" src={slide.preview} draggable={false} />
-        )}
+      <section class="slide-content">
+        <span>{name}</span>
+        <Image
+          layout="fixed"
+          src={"poster" in meta ? meta.poster : meta.url}
+          draggable={false}
+          style={placeholder}
+        />
       </section>
       <aside class="slide-controls" role="toolbar" aria-label="Slide controls">
         <Button
-          onClick$={() => slides.actions.remove(slide.id)}
+          onClick$={() => onRemove$()}
           color="red"
           size="lg"
           tabIndex={-1}
