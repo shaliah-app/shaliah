@@ -1,11 +1,17 @@
-import { component$ } from "@builder.io/qwik";
+import { component$ } from "@qwik.dev/core";
 import {
-  QwikCityProvider,
+  QwikRouterProvider,
   RouterOutlet,
   ServiceWorkerRegister,
-} from "@builder.io/qwik-city";
-import { RouterHead } from "./components/router-head/router-head";
-import { isDev } from "@builder.io/qwik/build";
+} from "@qwik.dev/router";
+import { RouterHead } from "./components/controllers";
+import { isDev } from "@qwik.dev/core/build";
+import { SlidesContextProvider } from "./contexts/SlidesContext";
+import { PresentationContextProvider } from "./contexts/PresentationContext";
+import { VideoPlayerControlsContextProvider } from "./contexts/VideoPlayerControlsContext";
+import { SharedStateQueueContextProvider } from "./contexts/SharedStateQueueContext";
+import dotenv from "dotenv";
+dotenv.config();
 
 import "./global.css";
 
@@ -18,7 +24,7 @@ export default component$(() => {
    */
 
   return (
-    <QwikCityProvider>
+    <QwikRouterProvider>
       <head>
         <meta charset="utf-8" />
         {!isDev && (
@@ -28,7 +34,6 @@ export default component$(() => {
           />
         )}
         <RouterHead />
-
         {/*------- Fonts -------*/}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -46,9 +51,17 @@ export default component$(() => {
         />
       </head>
       <body lang="pt-br">
-        <RouterOutlet />
-        {!isDev && <ServiceWorkerRegister />}
+        <SharedStateQueueContextProvider>
+          <PresentationContextProvider>
+            <SlidesContextProvider>
+              <VideoPlayerControlsContextProvider>
+                <RouterOutlet />
+                {!isDev && <ServiceWorkerRegister />}
+              </VideoPlayerControlsContextProvider>
+            </SlidesContextProvider>
+          </PresentationContextProvider>
+        </SharedStateQueueContextProvider>
       </body>
-    </QwikCityProvider>
+    </QwikRouterProvider>
   );
 });

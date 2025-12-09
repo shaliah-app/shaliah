@@ -1,0 +1,30 @@
+.slide-content {
+  transition-property: background-color, color;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+
+  --shade-color: rgb(0, 0, 0, 0);
+  --hover-color: rgb(255, 255, 255, 0);
+  --selected-color: var(--primary-color);
+  --selected-percentage: 0%;
+  --slide-bkg-color: color-mix(
+    in srgb,
+    var(--shade-color),
+    var(--selected-color) var(--selected-percentage)
+  );
+
+  background-color: color-mix(
+    in srgb,
+    var(--hover-color),
+    var(--slide-bkg-color)
+  );
+
+  &:hover {
+    --hover-color: rgb(255, 255, 255, 0.1);
+  }
+}
+
+.slide-active .slide-content {
+  --selected-percentage: 100%;
+  color: color-mix(in srgb, var(--bkg-color) 100%, rgb(0, 0, 0) 50%);
+}

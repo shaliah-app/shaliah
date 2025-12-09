@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "fileName": "peak.jpg",
+    "preview": "slide-placeholder-1.jpg"
+  },
+  {
+    "id": 2,
+    "fileName": "from-the-sky.png",
+    "preview": "slide-placeholder-2.jpg"
+  },
+  {
+    "id": 3,
+    "fileName": "lavender fields by chopin.jpg",
+    "preview": "slide-placeholder-3.jpg"
+  },
+  {
+    "id": 4,
+    "fileName": "SunsetBest.jpg",
+    "preview": "slide-placeholder-4.jpg"
+  },
+  {
+    "id": 5,
+    "fileName": "SpookyFrozenMountains.png",
+    "preview": "slide-placeholder-5.jpg"
+  },
+  {
+    "id": 6,
+    "fileName": "peakWithAReallyBigNameIThinkAtLeast.jpg",
+    "preview": "slide-placeholder-1.jpg"
+  },
+  {
+    "id": 7,
+    "fileName": "repeated_from-the-sky.png",
+    "preview": "slide-placeholder-2.jpg"
+  },
+  {
+    "id": 8,
+    "fileName": "repeated_lavender fields by chopin.jpg",
+    "preview": "slide-placeholder-3.jpg"
+  },
+  {
+    "id": 9,
+    "fileName": "repeated_SunsetBest.jpg",
+    "preview": "slide-placeholder-4.jpg"
+  },
+  {
+    "id": 10,
+    "fileName": "repeated_SpookyFrozenMountains.png",
+    "preview": "slide-placeholder-5.jpg"
+  }
+]

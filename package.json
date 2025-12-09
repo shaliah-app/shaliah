@@ -16,33 +16,46 @@
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.types": "tsc --incremental --noEmit",
+    "cypress.open": "cypress open --component",
+    "cypress.run": "cypress run --component",
     "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "dev.host": "vite --mode ssr --host",
+    "docker.up": "docker compose up -d",
+    "docker.down": "docker compose down",
+    "docker.restart": "docker compose down && docker compose up -d",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
     "start": "vite --open --mode ssr",
+    "test": "vitest",
+    "test.watch": "vitest watch",
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "^1.9.0",
-    "@builder.io/qwik-city": "^1.9.0",
-    "@qwik-ui/headless": "^0.6.3",
+    "@qwik.dev/core": "2.0.0-alpha.8",
+    "@qwik.dev/router": "2.0.0-alpha.8",
     "@types/eslint": "8.56.10",
     "@types/node": "20.14.11",
     "@typescript-eslint/eslint-plugin": "7.16.1",
     "@typescript-eslint/parser": "7.16.1",
+    "@unpic/qwik": "^1.0.0",
+    "cypress": "~12.17.2",
+    "cypress-ct-qwik": "~0.3.0",
+    "embla-carousel": "^8.5.2",
     "eslint": "8.57.0",
-    "eslint-plugin-qwik": "^1.9.0",
+    "eslint-plugin-qwik": "2.0.0-alpha.8",
     "prettier": "3.3.3",
+    "redis": "^4.7.0",
     "typescript": "5.4.5",
     "undici": "*",
-    "vite": "^5.4.11",
-    "vite-tsconfig-paths": "^4.2.1"
+    "uuid": "^11.1.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "^2.1.9"
   },
-  "eslintConfig":  {
+  "eslintConfig": {
     "root": true,
     "env": {
       "browser": true,
@@ -57,14 +70,18 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "tsconfigRootDir": ".",
-      "project": ["./tsconfig.json"],
+      "project": [
+        "./tsconfig.json"
+      ],
       "ecmaVersion": 2021,
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
       }
     },
-    "plugins": ["@typescript-eslint"],
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "rules": {
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -123,5 +140,11 @@
     "package-lock.json",
     "yarn.lock",
     "server"
-  ]
+  ],
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.70",
+    "blurhash": "^2.0.5",
+    "dotenv": "^16.5.0",
+    "jsondiffpatch": "^0.7.3"
+  }
 }
